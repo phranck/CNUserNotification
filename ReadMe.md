@@ -1,9 +1,9 @@
 ##Overview
-`CNUserNotification` is a kind of proxy to give OS X Lion 10.7 „*the same*‟ support for user notifications like OS X Mountain Lion 10.8 does. It uses a fake notification center that runs just per application. The class design and all method signatures are similar to their counterparts of `NSUserNotification`.
+`CNUserNotification` is a kind of proxy to give OS X Lion 10.7 „*the same*‟ support for user notifications like OS X Mountain Lion 10.8 it does. It uses a fake notification center that runs just per application. The class design and all method signatures are similar to their counterparts of `NSUserNotification`.
 
 It's not necessary to install *Growl* or other third party libraries. It's all build in to get the user notified - Mountain Lion style.
 
-As of `CNUserNotification` runs of a per application basis all methods related to scheduled or remote deliverey are **not** implemented. Please take a look at the [documentation](http://cnusernotification.cocoanaut.com/documentation/) to get a detailed look.
+As of `CNUserNotification` runs on a per application basis all methods related to scheduled or remote deliverey are **not** implemented. Please take a look at the [documentation](http://cnusernotification.cocoanaut.com/documentation/) to get a detailed look.
 
 
 ##Installation
