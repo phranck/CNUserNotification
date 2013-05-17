@@ -3,6 +3,8 @@
 
 It's not necessary to install *Growl* or other third party libraries. It's all build in to get the user notified - Mountain Lion style.
 
+As of `CNUserNotification` runs of a per application basis all methods related to scheduled or remote deliverey are **not** implemented. Please take a look at the [documentation](http://cnusernotification.cocoanaut.com/documentation/) to get a detailed look.
+
 
 ##Installation
 ####Via CocoaPods
