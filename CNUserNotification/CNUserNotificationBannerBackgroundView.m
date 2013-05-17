@@ -40,8 +40,8 @@ static CGFloat bannerRadius;
 @implementation CNUserNotificationBannerBackgroundView
 
 + (void)initialize {
-    gradientTopColor = [NSColor colorWithCalibratedWhite:0.975 alpha:1.000];
-    gradientBottomColor = [NSColor colorWithCalibratedWhite:0.835 alpha:1.000];
+    gradientTopColor = [NSColor colorWithCalibratedWhite:0.975 alpha:0.950];
+    gradientBottomColor = [NSColor colorWithCalibratedWhite:0.855 alpha:0.950];
     backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTopColor endingColor:gradientBottomColor];
     strokeColor = [NSColor colorWithCalibratedWhite:0.782 alpha:1.000];
     bannerRadius = 5.0;

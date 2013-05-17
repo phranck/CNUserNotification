@@ -29,15 +29,24 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "CNUserNotificationCenter.h"
+#import "CNUserNotificationCenterDelegate.h"
 
 
-@protocol CNUserNotificationCenterDelegate;
+
+/// notification names
+extern NSString *CNUserNotificationPresentedNotification;
+
+/// custom keys are used for the userInfo dictionary of a `CNUserNotification`
+extern NSString *kCNUserNotificationDismissDelayTimeKey;                     /// this key is used to specify time a notification banner is visible on the screen
+
 
 typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
     CNUserNotificationActivationTypeNone = 0,
-    CNUserNotificationActivationTypeContentsClicked = 1,
-    CNUserNotificationActivationTypeActionButtonClicked = 2
+    CNUserNotificationActivationTypeContentsClicked,
+    CNUserNotificationActivationTypeActionButtonClicked
 } NS_ENUM_AVAILABLE (10_7, NA);
+
 
 NS_CLASS_AVAILABLE(10_7, NA)
 @interface CNUserNotification : NSObject <NSCopying>
@@ -114,6 +123,12 @@ NS_CLASS_AVAILABLE(10_7, NA)
 @property (copy) NSString *otherButtonTitle;
 
 
+#pragma mark - Delivery Information
+/** @name User Delivery Information */
+
+@property (readonly, getter=isPresented) BOOL presented;
+
+
 #pragma mark - User Notification Activation Method
 /** @name User Notification Activation Method */
 
@@ -125,12 +140,12 @@ NS_CLASS_AVAILABLE(10_7, NA)
  
     typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
         CNUserNotificationActivationTypeNone = 0,
-        CNUserNotificationActivationTypeContentsClicked = 1,
-        CNUserNotificationActivationTypeActionButtonClicked = 2
+        CNUserNotificationActivationTypeContentsClicked,
+        CNUserNotificationActivationTypeActionButtonClicked
     } NS_ENUM_AVAILABLE (10_7, NA);
 
  */
-@property (readonly) NSUserNotificationActivationType activationType;
+@property (readonly) CNUserNotificationActivationType activationType;
 
 
 #pragma mark - User Notification User Information
@@ -142,67 +157,4 @@ NS_CLASS_AVAILABLE(10_7, NA)
  All items must be property list types or an exception will be thrown.
  */
 @property (copy) NSDictionary *userInfo;
-@end
-
-
-#pragma mark -
-
-NS_CLASS_AVAILABLE(10_7, NA)
-@interface CNUserNotificationCenter : NSObject
-
-
-#pragma mark - Creating the Default User Notification Center
-/** @name Creating the Default User Notification Center */
-
-/**
- Returns the default user notification center.
-	
- The default user notification object.
- */
-+ (instancetype)defaultUserNotificationCenter;
-
-
-#pragma mark - Managing the Delivered Notifications
-/** @name Managing the Delivered Notifications */
-
-/**
- Deliver the specified user notification.
-
- The notification will be presented to the user. The presented property of the `NSUserNotification` object will always be set to `YES` if a notification is delivered using this method.
-
- @param notification	The user notification.
- */
-- (void)deliverNotification:(CNUserNotification *)notification;
-
-
-#pragma mark - Getting and Setting the Delegate
-/** @name Getting and Setting the Delegate */
-
-/**
- Specifies the notification center delegate.
-
- The delegate must conform to the `CNUserNotificationCenterDelegate` protocol.
- */
-@property (assign) id<CNUserNotificationCenterDelegate> delegate;
-@end
-
-
-#pragma mark -
-@protocol CNUserNotificationCenterDelegate <NSUserNotificationCenterDelegate>
-@optional
-
-/**
- ...
- */
-- (BOOL)userNotificationCenter:(CNUserNotificationCenter *)center shouldPresentNotification:(CNUserNotification *)notification;
-
-/**
- ...
- */
-- (void)userNotificationCenter:(CNUserNotificationCenter *)center didActivateNotification:(CNUserNotification *)notification;
-
-/**
- ...
- */
-- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification;
 @end

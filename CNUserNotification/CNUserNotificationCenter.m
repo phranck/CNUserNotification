@@ -31,8 +31,14 @@
 #import "CNUserNotificationBannerController.h"
 
 
+NSString *kCNUserNotificationDismissDelayTimeKey = @"com.cocoanaut.UserNotificationDismissDelayTime";
+
+static NSUInteger kDefaultDismissDelayTime = 5;
+
 @interface CNUserNotificationCenter () {}
 @property (strong) CNUserNotificationBannerController *notificationBannerController;
+@property (strong) NSMutableArray *deliveredNotifications;
+@property (strong, nonatomic) NSMutableArray *cn_scheduledNotifications;
 @end
 
 @implementation CNUserNotificationCenter
@@ -47,10 +53,21 @@
     return sharedInstance;
 }
 
++ (instancetype)customUserNotificationCenter
+{
+    __strong static id sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[[self class] alloc] init];
+    });
+    return sharedInstance;
+}
+
 - (id)init {
     self = [super init];
     if (self) {
         _notificationBannerController = nil;
+        _cn_scheduledNotifications = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -61,7 +78,35 @@
                                                                                                     delegate:self.delegate];
     } else {
     }
-    [self.notificationBannerController presentBannerDismissAfter:7];
+    [self userNotificationCenter:self didDeliverNotification:notification];
+
+    NSDictionary *userInfo = notification.userInfo;
+    if ([userInfo objectForKey:kCNUserNotificationDismissDelayTimeKey] != nil) {
+        [self.notificationBannerController presentBannerDismissAfter:[(NSNumber *)[userInfo objectForKey:kCNUserNotificationDismissDelayTimeKey] integerValue]];
+    } else {
+        [self.notificationBannerController presentBannerDismissAfter:kDefaultDismissDelayTime];
+    }
+}
+
+//- (void)scheduleNotification:(CNUserNotification *)notification
+//{
+//    
+//}
+//
+//- (void)removeScheduledNotification:(CNUserNotification *)notification
+//{
+//
+//}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - CNUserNotificationCenter Delegate
+
+- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification
+{
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate userNotificationCenter:center didDeliverNotification:notification];
+    }
 }
 
 @end

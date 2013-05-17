@@ -31,6 +31,9 @@
 #import "CNUserNotification.h"
 
 
+/// names for notifications
+NSString *CNUserNotificationPresentedNotification = @"com.cocoanaut.CNUserNotificationWasPresentedNotification";
+
 @interface CNUserNotification () {
     id _CNInstance;
 }
@@ -50,6 +53,14 @@
             _subtitle = nil;
             _informativeText = nil;
             _userInfo = [[NSDictionary alloc] init];
+            _presented = NO;
+
+            [[NSNotificationCenter defaultCenter] addObserverForName:CNUserNotificationPresentedNotification
+                                                              object:nil
+                                                               queue:[NSOperationQueue mainQueue]
+                                                          usingBlock:^(NSNotification *note) {
+                                                              _presented = YES;
+                                                          }];
         }
     }
     return self;
@@ -60,9 +71,9 @@
     [copy setTitle:self.title];
     [copy setSubtitle:self.subtitle];
     [copy setInformativeText:self.informativeText];
-    //    [copy setHasActionButton:self.hasActionButton];
-    //    [copy setActionButtonTitle:self.actionButtonTitle];
-    //    [copy setOtherButtonTitle:self.otherButtonTitle];
+    [copy setHasActionButton:self.hasActionButton];
+    [copy setActionButtonTitle:self.actionButtonTitle];
+    [copy setOtherButtonTitle:self.otherButtonTitle];
     [copy setUserInfo:self.userInfo];
     return copy;
 }

@@ -32,8 +32,8 @@
 #import "CNUserNotificationBannerController.h"
 
 
-static NSTimeInterval slideInAnimationDuration = 0.35;
-static NSTimeInterval slideOutAnimationDuration = 0.42;
+static NSTimeInterval slideInAnimationDuration = 0.42;
+static NSTimeInterval slideOutAnimationDuration = 0.56;
 static NSDictionary *titleAttributes, *subtitleAttributes, *informativeTextAttributes;
 static NSRect presentationBeginRect, presentationRect, presentationEndRect;
 static CGFloat topAndTrailingMargin = 15;
@@ -43,11 +43,10 @@ static CGFloat topAndTrailingMargin = 15;
     NSString *_cn_subtitle;
     NSString *_cn_informativeText;
     NSDictionary *_cn_userInfo;
-    CNUserNotification *_cn_userNotification;
+    CNUserNotification *_cn_currentUserNotification;
 }
 @property (assign) BOOL animationIsRunning;
 @property (strong) NSTimer *dismissTimer;
-@property (strong) NSMutableArray *notificationPool;
 @end
 
 @implementation CNUserNotificationBannerController
@@ -91,10 +90,7 @@ static CGFloat topAndTrailingMargin = 15;
         _cn_informativeText = theNotification.informativeText;
         _cn_userInfo = theNotification.userInfo;
         _delegate = theDelegate;
-        _cn_userNotification = theNotification;
-
-        _notificationPool = [[NSMutableArray alloc] init];
-        [_notificationPool addObject:_cn_userNotification];
+        _cn_currentUserNotification = theNotification;
     }
     return self;
 }
@@ -154,9 +150,12 @@ static CGFloat topAndTrailingMargin = 15;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [[[self window] animator] setAlphaValue:1.0];
         [[[self window] animator] setFrame:presentationRect display:YES];
+        
     } completionHandler:^{
         self.animationIsRunning = NO;
         [[self window] makeKeyAndOrderFront:self];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationPresentedNotification object:nil];
     }];
 }
 
@@ -180,6 +179,7 @@ static CGFloat topAndTrailingMargin = 15;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [[[self window] animator] setAlphaValue:0.0];
         [[[self window] animator] setFrame:presentationEndRect display:YES];
+        
     } completionHandler:^{
         self.animationIsRunning = NO;
         [self.window close];
@@ -188,10 +188,11 @@ static CGFloat topAndTrailingMargin = 15;
 
 - (void)mouseUp:(NSEvent *)theEvent {
     CNUserNotificationCenter *center = [CNUserNotificationCenter defaultUserNotificationCenter];
-    if ([self userNotificationCenter:center shouldPresentNotification:_cn_userNotification]) {
-        [self userNotificationCenter:center didActivateNotification:_cn_userNotification];
+    if ([self userNotificationCenter:center shouldPresentNotification:_cn_currentUserNotification]) {
+        [self userNotificationCenter:center didActivateNotification:_cn_currentUserNotification];
     }
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNUserNotificationCenter Delegate
@@ -200,6 +201,13 @@ static CGFloat topAndTrailingMargin = 15;
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate userNotificationCenter:center didActivateNotification:notification];
         [self dismissBanner];
+    }
+}
+
+- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification
+{
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate userNotificationCenter:center didDeliverNotification:notification];
     }
 }
 

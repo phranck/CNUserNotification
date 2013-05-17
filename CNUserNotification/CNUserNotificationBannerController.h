@@ -32,7 +32,7 @@
 #import "CNUserNotification.h"
 
 @interface CNUserNotificationBannerController : NSWindowController
-@property (assign) id<CNUserNotificationCenterDelegate> delegate;
+@property (strong) id<CNUserNotificationCenterDelegate> delegate;
 @property (strong, nonatomic) IBOutlet NSTextField *title;
 @property (strong, nonatomic) IBOutlet NSTextField *subtitle;
 @property (strong, nonatomic) IBOutlet NSTextField *informativeText;
