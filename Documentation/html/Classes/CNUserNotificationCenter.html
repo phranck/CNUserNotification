@@ -68,6 +68,12 @@
 
 <li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating the Default User Notification Center">Creating the Default User Notification Center</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Managing the Delivered Notifications">Managing the Delivered Notifications</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Getting and Setting the Delegate">Getting and Setting the Delegate</a></span></li>
+	
 </ul></li>
 
 
@@ -135,28 +141,46 @@
 						<h2 class="subtitle subtitle-tasks">Tasks</h2>
 						
 						
-						
-						
+						<a title="Creating the Default User Notification Center" name="task_Creating the Default User Notification Center"></a>
+						<h3 class="subsubtitle task-title">Creating the Default User Notification Center</h3>
 
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/defaultUserNotificationCenter">+&nbsp;defaultUserNotificationCenter</a></code>
-		
+		<span class="tooltip"><p>Returns the default user notification center.</p>
+
+<p>The default user notification object.</p></span>
 	</span>
 	
 	
-</li><li>
+</li>
+						</ul>
+						
+						
+						<a title="Managing the Delivered Notifications" name="task_Managing the Delivered Notifications"></a>
+						<h3 class="subsubtitle task-title">Managing the Delivered Notifications</h3>
+
+						<ul class="task-list">
+							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/deliverNotification:">&ndash;&nbsp;deliverNotification:</a></code>
-		
+		<span class="tooltip"><p>Deliver the specified user notification.</p></span>
 	</span>
 	
 	
-</li><li>
+</li>
+						</ul>
+						
+						
+						<a title="Getting and Setting the Delegate" name="task_Getting and Setting the Delegate"></a>
+						<h3 class="subsubtitle task-title">Getting and Setting the Delegate</h3>
+
+						<ul class="task-list">
+							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
-		
+		<span class="tooltip"><p>Specifies the notification center delegate.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -179,6 +203,10 @@
 	
 	
 	
+	<div class="method-subsection brief-description">
+		<p>Specifies the notification center delegate.</p>
+	</div>		
+	
     
 
 	<div class="method-subsection method-declaration"><code>@property (assign) id&lt;CNUserNotificationCenterDelegate&gt; delegate</code></div>
@@ -190,6 +218,11 @@
 	
 	
 	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The delegate must conform to the <a href="../Protocols/CNUserNotificationCenterDelegate.html"><code>CNUserNotificationCenterDelegate</code></a> protocol.</p>
+	</div>
 	
 	
 	
@@ -218,6 +251,12 @@
 	<h3 class="subsubtitle method-title">defaultUserNotificationCenter</h3>
 	
 	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the default user notification center.</p>
+
+<p>The default user notification object.</p>
+	</div>		
 	
     
 
@@ -259,17 +298,36 @@
 	
 	
 	
+	<div class="method-subsection brief-description">
+		<p>Deliver the specified user notification.</p>
+	</div>		
+	
     
 
 	<div class="method-subsection method-declaration"><code>- (void)deliverNotification:(CNUserNotification *)<em>notification</em></code></div>
 
     
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>notification</em></dt>
+			<dd><p>The user notification.</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
 	
 	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The notification will be presented to the user. The presented property of the <code>NSUserNotification</code> object will always be set to <code>YES</code> if a notification is delivered using this method.</p>
+	</div>
 	
 	
 	

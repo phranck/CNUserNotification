@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary               = 'CNUserNotification is a kind of proxy to give OS X Lion 10.7 „the same‟ support for user notifications like OS X Mountain Lion 10.8 it does.'
   s.homepage              = 'https://github.com/phranck/CNUserNotification'
   s.author                = { 'Frank Gregor' => 'phranck@cocoanaut.com' }
-  s.source                = { :git => 'https://github.com/phranck/CNUserNotification.git', :tag => s.version }
+  s.source                = { :git => 'https://github.com/phranck/CNUserNotification.git', :tag => s.version.to_s }
   s.platform              = :osx
   s.osx.deployment_target = '10.7'
   s.requires_arc          = true

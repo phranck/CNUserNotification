@@ -150,18 +150,38 @@ NS_CLASS_AVAILABLE(10_7, NA)
 NS_CLASS_AVAILABLE(10_7, NA)
 @interface CNUserNotificationCenter : NSObject
 
+
+#pragma mark - Creating the Default User Notification Center
+/** @name Creating the Default User Notification Center */
+
 /**
- ...
+ Returns the default user notification center.
+	
+ The default user notification object.
  */
 + (instancetype)defaultUserNotificationCenter;
 
+
+#pragma mark - Managing the Delivered Notifications
+/** @name Managing the Delivered Notifications */
+
 /**
- ...
+ Deliver the specified user notification.
+
+ The notification will be presented to the user. The presented property of the `NSUserNotification` object will always be set to `YES` if a notification is delivered using this method.
+
+ @param notification	The user notification.
  */
 - (void)deliverNotification:(CNUserNotification *)notification;
 
+
+#pragma mark - Getting and Setting the Delegate
+/** @name Getting and Setting the Delegate */
+
 /**
- ...
+ Specifies the notification center delegate.
+
+ The delegate must conform to the `CNUserNotificationCenterDelegate` protocol.
  */
 @property (assign) id<CNUserNotificationCenterDelegate> delegate;
 @end

@@ -29,6 +29,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "CNUserNotification.h"
+#import "CNUserNotificationCenterDelegate.h"
 
 @interface CNUserNotificationBannerController : NSWindowController
 @property (assign) id<CNUserNotificationCenterDelegate> delegate;
