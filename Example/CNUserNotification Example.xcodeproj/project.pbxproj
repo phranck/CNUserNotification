@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FD410C361746BDA7009C2424 /* CNUserNotification Example.iconset in Resources */ = {isa = PBXBuildFile; fileRef = FD410C351746BDA7009C2424 /* CNUserNotification Example.iconset */; };
+		FDC13CC917483595001E4BE1 /* banner-image-1.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC13CC717483595001E4BE1 /* banner-image-1.png */; };
+		FDC13CCA17483595001E4BE1 /* banner-image-2.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC13CC817483595001E4BE1 /* banner-image-2.png */; };
 		FDC3FFC817467F4000DEA770 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC3FFC717467F4000DEA770 /* Cocoa.framework */; };
 		FDC3FFD217467F4000DEA770 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDC3FFD017467F4000DEA770 /* InfoPlist.strings */; };
 		FDC3FFD417467F4000DEA770 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFD317467F4000DEA770 /* main.m */; };
@@ -23,9 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD3CDE251746ED6A00C96E17 /* CNLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNLog.h; sourceTree = "<group>"; };
 		FD410C331746AFD9009C2424 /* CNUserNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenter.h; sourceTree = "<group>"; };
 		FD410C341746B084009C2424 /* CNUserNotificationCenterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenterDelegate.h; sourceTree = "<group>"; };
 		FD410C351746BDA7009C2424 /* CNUserNotification Example.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = "CNUserNotification Example.iconset"; sourceTree = "<group>"; };
+		FDC13CC717483595001E4BE1 /* banner-image-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-image-1.png"; sourceTree = "<group>"; };
+		FDC13CC817483595001E4BE1 /* banner-image-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-image-2.png"; sourceTree = "<group>"; };
 		FDC3FFC417467F4000DEA770 /* CNUserNotification Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CNUserNotification Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDC3FFC717467F4000DEA770 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		FDC3FFCA17467F4000DEA770 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -63,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD410C391746D7ED009C2424 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FDC13CC717483595001E4BE1 /* banner-image-1.png */,
+				FDC13CC817483595001E4BE1 /* banner-image-2.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		FDC3FFBB17467F4000DEA770 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +123,7 @@
 				FDC3FFDC17467F4000DEA770 /* MainMenu.xib */,
 				FDC3FFCE17467F4000DEA770 /* Supporting Files */,
 				FDC3FFE417467F7000DEA770 /* Libraries */,
+				FD410C391746D7ED009C2424 /* Images */,
 			);
 			path = "CNUserNotification Example";
 			sourceTree = "<group>";
@@ -119,6 +134,7 @@
 				FDC3FFCF17467F4000DEA770 /* CNUserNotification Example-Info.plist */,
 				FDC3FFD017467F4000DEA770 /* InfoPlist.strings */,
 				FDC3FFD317467F4000DEA770 /* main.m */,
+				FD3CDE251746ED6A00C96E17 /* CNLog.h */,
 				FDC3FFD517467F4000DEA770 /* CNUserNotification Example-Prefix.pch */,
 				FDC3FFD617467F4000DEA770 /* Credits.rtf */,
 			);
@@ -208,6 +224,8 @@
 				FDC3FFDE17467F4000DEA770 /* MainMenu.xib in Resources */,
 				FDC3FFF117467FA500DEA770 /* CNUserNotificationBannerController.xib in Resources */,
 				FD410C361746BDA7009C2424 /* CNUserNotification Example.iconset in Resources */,
+				FDC13CC917483595001E4BE1 /* banner-image-1.png in Resources */,
+				FDC13CCA17483595001E4BE1 /* banner-image-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@ As of `CNUserNotification` runs on a per application basis all methods related t
 
 Here is a screenshot of the included example application:
 
-![CNUserNotification Example](https://dl.dropboxusercontent.com/u/34133216/WebImages/Github/CNUserNotification-Example.png)
+![CNUserNotification Example](https://dl.dropboxusercontent.com/u/34133216/WebImages/Github/CNUserNotification-Example.jpg)
 
 
 
@@ -32,7 +32,6 @@ As described above all method signatures are identical to that ones of `CNUserNo
 
 That's all. The only thing you have to do is to replace the prefix `NS` by `CN`. It's not required to change any code if you use `CNUserNotification`. It decides by itself whether to use `NSNotfication`  (on 10.8) or this custom implementation (on 10.7). 
 
-An example application will follow as soon as possible.
 
 ##Requirements
 `CNSplitView` was written using ARC and runs on 10.7 and above. It requires the QuartzCore Framework.
