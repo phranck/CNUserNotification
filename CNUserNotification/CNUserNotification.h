@@ -38,7 +38,8 @@
 extern NSString *CNUserNotificationPresentedNotification;
 
 /// custom keys are used for the userInfo dictionary of a `CNUserNotification`
-extern NSString *kCNUserNotificationDismissDelayTimeKey;                     /// this key is used to specify time a notification banner is visible on the screen
+extern NSString *kCNUserNotificationDismissDelayTimeKey;            /// this key is used to specify time a notification banner is visible on the screen
+extern NSString *kCNUserNotificationBannerImageKey;                 /// this key is used to set an alternate banner image instead of the default application icon image
 
 
 typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {

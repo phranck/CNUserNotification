@@ -31,7 +31,8 @@
 #import "CNUserNotificationBannerController.h"
 
 
-NSString *kCNUserNotificationDismissDelayTimeKey = @"com.cocoanaut.UserNotificationDismissDelayTime";
+NSString *kCNUserNotificationDismissDelayTimeKey = @"com.cocoanaut.userNotification.dismissDelayTime";
+NSString *kCNUserNotificationBannerImageKey = @"com.cocoanaut.userNotification.bannerImage";
 
 static NSUInteger kDefaultDismissDelayTime = 5;
 
@@ -73,11 +74,8 @@ static NSUInteger kDefaultDismissDelayTime = 5;
 }
 
 - (void)deliverNotification:(CNUserNotification *)notification {
-    if (!self.notificationBannerController) {
-        self.notificationBannerController = [[CNUserNotificationBannerController alloc] initWithNotification:notification
-                                                                                                    delegate:self.delegate];
-    } else {
-    }
+    self.notificationBannerController = [[CNUserNotificationBannerController alloc] initWithNotification:notification
+                                                                                                delegate:self.delegate];
     [self userNotificationCenter:self didDeliverNotification:notification];
 
     NSDictionary *userInfo = notification.userInfo;

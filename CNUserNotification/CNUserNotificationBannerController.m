@@ -32,11 +32,12 @@
 #import "CNUserNotificationBannerController.h"
 
 
-static NSTimeInterval slideInAnimationDuration = 0.42;
+static NSTimeInterval slideInAnimationDuration = 0.35;
 static NSTimeInterval slideOutAnimationDuration = 0.56;
 static NSDictionary *titleAttributes, *subtitleAttributes, *informativeTextAttributes;
 static NSRect presentationBeginRect, presentationRect, presentationEndRect;
-static CGFloat topAndTrailingMargin = 15;
+static CGFloat topMargin = 10;
+static CGFloat trailingMargin = 15;
 
 @interface CNUserNotificationBannerController () {
     NSString *_cn_title;
@@ -50,6 +51,9 @@ static CGFloat topAndTrailingMargin = 15;
 @end
 
 @implementation CNUserNotificationBannerController
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Initialization
 
 + (void)initialize {
     NSShadow *textShadow = [[NSShadow alloc] init];
@@ -95,65 +99,28 @@ static CGFloat topAndTrailingMargin = 15;
     return self;
 }
 
-- (void)windowDidLoad {
-    [super windowDidLoad];
-    [self calculateBannerPositions];
-
-    self.title.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_title attributes:titleAttributes];
-    self.subtitle.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_subtitle attributes:subtitleAttributes];
-    self.informativeText.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_informativeText attributes:informativeTextAttributes];
-    self.bannerImageView.image = [NSApp applicationIconImage];
-
-    [[self window] setAlphaValue:0.0];
-    [[self window] setLevel:NSScreenSaverWindowLevel];
-    [[self window] setStyleMask:NSBorderlessWindowMask];
-    [[self window] setOpaque:NO];
-    [[self window] setBackgroundColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.0]];
-}
-
-- (void)calculateBannerPositions {
-    NSRect mainScreenFrame = [[NSScreen mainScreen] frame];
-    CGFloat statusBarThickness = [[NSStatusBar systemStatusBar] thickness];
-
-    CGFloat bannerWidth = NSWidth([[self window] frame]);
-    CGFloat bannerHeight = NSHeight([[self window] frame]);
-
-    /// window position before slide in animation
-    presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - topAndTrailingMargin,
-                                       NSMaxY(mainScreenFrame) - bannerHeight - topAndTrailingMargin,
-                                       bannerWidth,
-                                       bannerHeight);
-
-    /// window position after slide in animation
-    presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - topAndTrailingMargin,
-                                  NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topAndTrailingMargin,
-                                  bannerWidth,
-                                  bannerHeight);
-
-    /// window position after slide out animation
-    presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth,
-                                     NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topAndTrailingMargin,
-                                     bannerWidth,
-                                     bannerHeight);
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - API
 
 - (void)presentBanner {
     if (self.animationIsRunning) return;
 
     self.animationIsRunning = YES;
     [NSApp activateIgnoringOtherApps:YES];
-    [[self window] setFrame:presentationBeginRect display:NO];
-    [[self window] orderFront:self];
+
+    NSWindow *window = [self window];
+    [window setFrame:presentationBeginRect display:NO];
+    [window orderFront:self];
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
         context.duration = slideInAnimationDuration;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [[[self window] animator] setAlphaValue:1.0];
-        [[[self window] animator] setFrame:presentationRect display:YES];
+        [[window animator] setAlphaValue:1.0];
+        [[window animator] setFrame:presentationRect display:YES];
         
     } completionHandler:^{
         self.animationIsRunning = NO;
-        [[self window] makeKeyAndOrderFront:self];
+        [window makeKeyAndOrderFront:self];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationPresentedNotification object:nil];
     }];
@@ -163,10 +130,6 @@ static CGFloat topAndTrailingMargin = 15;
     [self presentBanner];
     self.dismissTimer = [NSTimer timerWithTimeInterval:dismissTimerInterval target:self selector:@selector(timedBannerDismiss:) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:self.dismissTimer forMode:NSDefaultRunLoopMode];
-}
-
-- (void)timedBannerDismiss:(NSTimer *)theTimer {
-    [self dismissBanner];
 }
 
 - (void)dismissBanner {
@@ -186,13 +149,75 @@ static CGFloat topAndTrailingMargin = 15;
     }];
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Private Helper
+
+- (void)timedBannerDismiss:(NSTimer *)theTimer {
+    [self dismissBanner];
+}
+
+- (void)calculateBannerPositions {
+    NSRect mainScreenFrame = [[NSScreen screens][0] frame];
+    CGFloat statusBarThickness = [[NSStatusBar systemStatusBar] thickness];
+
+    CGFloat bannerWidth = NSWidth([[self window] frame]);
+    CGFloat bannerHeight = NSHeight([[self window] frame]);
+
+    /// window position before slide in animation
+    presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - trailingMargin,
+                                       NSMaxY(mainScreenFrame) - bannerHeight - topMargin,
+                                       bannerWidth,
+                                       bannerHeight);
+
+    /// window position after slide in animation
+    presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - trailingMargin,
+                                  NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topMargin,
+                                  bannerWidth,
+                                  bannerHeight);
+
+    /// window position after slide out animation
+    presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth,
+                                     NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topMargin,
+                                     bannerWidth,
+                                     bannerHeight);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSWindowController
+
+- (void)windowDidLoad {
+    [super windowDidLoad];
+    [self calculateBannerPositions];
+
+    NSWindow *window = [self window];
+
+    self.title.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_title attributes:titleAttributes];
+    self.subtitle.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_subtitle attributes:subtitleAttributes];
+    self.informativeText.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_informativeText attributes:informativeTextAttributes];
+
+    NSDictionary *userInfo = _cn_currentUserNotification.userInfo;
+    if ([userInfo objectForKey:kCNUserNotificationBannerImageKey]) {
+        self.bannerImageView.image = (NSImage *)[NSKeyedUnarchiver unarchiveObjectWithData:[userInfo objectForKey:kCNUserNotificationBannerImageKey]];
+    } else {
+        self.bannerImageView.image = [NSApp applicationIconImage];
+    }
+
+    [window setAlphaValue:0.0];
+    [window setLevel:NSStatusWindowLevel];
+    [window setStyleMask:NSBorderlessWindowMask];
+    [window setOpaque:NO];
+    [window setBackgroundColor:[NSColor clearColor]];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSResponder
+
 - (void)mouseUp:(NSEvent *)theEvent {
     CNUserNotificationCenter *center = [CNUserNotificationCenter defaultUserNotificationCenter];
     if ([self userNotificationCenter:center shouldPresentNotification:_cn_currentUserNotification]) {
         [self userNotificationCenter:center didActivateNotification:_cn_currentUserNotification];
     }
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - CNUserNotificationCenter Delegate
@@ -204,8 +229,7 @@ static CGFloat topAndTrailingMargin = 15;
     }
 }
 
-- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification
-{
+- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification {
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate userNotificationCenter:center didDeliverNotification:notification];
     }
