@@ -23,6 +23,10 @@
 
     self.notificationCenter = [CNUserNotificationCenter defaultUserNotificationCenter];
     self.notificationCenter.delegate = self;
+
+    [self.dismissDelayTimeSlider setEnabled:NO];
+    [self.bannerImageMatrix setEnabled:NO];
+    self.bannerImagePreview.image = [NSImage imageNamed:@"banner-image-1"];
 }
 
 - (IBAction)deliverButtonAction:(id)sender
@@ -33,6 +37,7 @@
     notification.informativeText = self.informativeText.stringValue;
     notification.userInfo = @{
         kCNUserNotificationDismissDelayTimeKey: [NSNumber numberWithInteger:self.dismissDelayTime],
+        kCNUserNotificationBannerImageKey: [NSKeyedArchiver archivedDataWithRootObject:self.bannerImagePreview.image],
         @"openThisURLBecauseItsAwesome": self.urlToOpen.stringValue
     };
 
@@ -41,20 +46,22 @@
 
 - (IBAction)notificationSelectionMatrixAction:(id)sender
 {
+    self.notificationCenter = nil;
     switch ([self.notificationSelectionMatrix selectedRow]) {
         case 0: {
-            self.notificationCenter = nil;
             self.notificationCenter = [CNUserNotificationCenter defaultUserNotificationCenter];
-            self.notificationCenter.delegate = self;
+            [self.dismissDelayTimeSlider setEnabled:NO];
+            [self.bannerImageMatrix setEnabled:NO];
             break;
         }
         case 1: {
-            self.notificationCenter = nil;
             self.notificationCenter = [CNUserNotificationCenter customUserNotificationCenter];
-            self.notificationCenter.delegate = self;
+            [self.dismissDelayTimeSlider setEnabled:YES];
+            [self.bannerImageMatrix setEnabled:YES];
             break;
         }
     }
+    self.notificationCenter.delegate = self;
 }
 
 - (IBAction)dismissDelayTimeSliderAction:(id)sender
@@ -76,6 +83,11 @@
             break;
         }
     }
+}
+
+- (IBAction)bannerImageMatrixAction:(id)sender
+{
+    self.bannerImagePreview.image = [NSImage imageNamed:[NSString stringWithFormat:@"banner-image-%li", [self.bannerImageMatrix selectedRow]+1]];
 }
 
 

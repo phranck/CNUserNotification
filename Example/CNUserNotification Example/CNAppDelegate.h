@@ -22,12 +22,15 @@
 @property (strong) IBOutlet NSTextField *urlToOpen;
 
 @property (strong) IBOutlet NSMatrix *notificationSelectionMatrix;
+@property (strong) IBOutlet NSMatrix *bannerImageMatrix;
 @property (strong) IBOutlet NSSlider *dismissDelayTimeSlider;
 @property (strong) IBOutlet NSButton *hasActionButtonCheckbox;
+@property (strong) IBOutlet NSImageView *bannerImagePreview;
 
 - (IBAction)deliverButtonAction:(id)sender;
 - (IBAction)notificationSelectionMatrixAction:(id)sender;
 - (IBAction)dismissDelayTimeSliderAction:(id)sender;
 - (IBAction)hasActionButtonCheckboxAction:(id)sender;
+- (IBAction)bannerImageMatrixAction:(id)sender;
 
 @end
