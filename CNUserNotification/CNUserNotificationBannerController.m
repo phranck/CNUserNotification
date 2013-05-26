@@ -46,6 +46,12 @@ static CGFloat bannerContentPadding = 8;
 static CGFloat bannerContentLabelPadding = 1;
 static CGSize buttonSize;
 
+
+CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
+    return (left > right ? left : right);;
+}
+
+
 @interface CNUserNotificationBannerController () {
     NSDictionary *_userInfo;
     CNUserNotification *_userNotification;
@@ -296,8 +302,17 @@ static CGSize buttonSize;
     }
 
     CNUserNotificationBannerButton *otherButton = [[CNUserNotificationBannerButton alloc] init];
+    otherButton.target = self;
+    otherButton.action = @selector(otherButtonAction);
+    otherButton.title = (![_userNotification.otherButtonTitle isEqualToString:@""] ? _userNotification.otherButtonTitle : NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title"));
+
     CNUserNotificationBannerButton *activationButton = [[CNUserNotificationBannerButton alloc] init];
-    
+    activationButton.target = self;
+    activationButton.action = @selector(activationButtonAction);
+    activationButton.title = (![_userNotification.actionButtonTitle isEqualToString:@""] ? _userNotification.actionButtonTitle : NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title"));
+
+    CGFloat calculatedMaxButtonWidth = CNGetMaxCGFloat(otherButton.intrinsicContentSize.width, activationButton.intrinsicContentSize.width);
+
     NSDictionary *views = @{
         @"bannerImage":         self.bannerImageView,
         @"title":               self.title,
@@ -309,7 +324,7 @@ static CGSize buttonSize;
 
     _labelWidth = 0;
     if (_userNotification.hasActionButton) {
-        _labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding + buttonSize.width + bannerContentPadding);
+        _labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding + calculatedMaxButtonWidth + bannerContentPadding);
     } else {
         _labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding);
     }
@@ -323,21 +338,13 @@ static CGSize buttonSize;
         @"labelWidth":      @(_labelWidth),
         @"imageWidth":      @(bannerImageSize.width),
         @"imageHeight":     @(bannerImageSize.height),
-        @"buttonWidth":     @(buttonSize.width)
+        @"buttonWidth":     @(calculatedMaxButtonWidth)
     };
 
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[bannerImage(imageHeight)]" options:0 metrics:metrics views:views]];
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=labelHeight)]"
                                                                         options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
     if (_userNotification.hasActionButton) {
-        otherButton.target = self;
-        otherButton.action = @selector(otherButtonAction);
-        otherButton.title = NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title");
-
-        activationButton.target = self;
-        activationButton.action = @selector(activationButtonAction);
-        activationButton.title = (![_userNotification.actionButtonTitle isEqualToString:@""] ? _userNotification.actionButtonTitle : NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title"));
-
         [contentView addSubview:otherButton];
         [contentView addSubview:activationButton];
 
