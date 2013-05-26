@@ -102,6 +102,12 @@ NSString *CNUserNotificationActivatedWithTypeNotification = @"com.cocoanaut.user
     [self userNotificationCenter:self didDeliverNotification:notification];
 
     [self.notificationBannerController presentBannerDismissAfter:notification.feature.dismissDelayTime];
+
+    if ([notification.soundName isEqualToString:NSUserNotificationDefaultSoundName]) {
+        [[NSSound soundNamed:@"CNUserNotificationDefaultSound"] play];
+    } else {
+        [[NSSound soundNamed:notification.soundName] play];
+    }
 }
 
 
