@@ -27,6 +27,8 @@
 					<select id="jumpTo">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 	
 	
 	
@@ -48,6 +50,8 @@
 	
 	<option value="//api/name/otherButtonTitle">&nbsp;&nbsp;&nbsp;&nbsp;otherButtonTitle</option>
 	
+	<option value="//api/name/soundName">&nbsp;&nbsp;&nbsp;&nbsp;soundName</option>
+	
 	<option value="//api/name/subtitle">&nbsp;&nbsp;&nbsp;&nbsp;subtitle</option>
 	
 	<option value="//api/name/title">&nbsp;&nbsp;&nbsp;&nbsp;title</option>
@@ -59,6 +63,13 @@
 	
 	
 	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/feature">&nbsp;&nbsp;&nbsp;&nbsp;- feature</option>
+	
+	<option value="//api/name/setFeature:">&nbsp;&nbsp;&nbsp;&nbsp;- setFeature:</option>
+	
+	
 	
 </select>
 				</li>
@@ -67,6 +78,8 @@
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
 
 
 
@@ -76,9 +89,13 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Displayed Notification Buttons">Displayed Notification Buttons</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_User Delivery Information">User Delivery Information</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_User Notification Activation Method">User Notification Activation Method</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_User Notification User Information">User Notification User Information</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_User Notification Additional Features">User Notification Additional Features</a></span></li>
 	
 </ul></li>
 
@@ -98,6 +115,8 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/otherButtonTitle">otherButtonTitle</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/soundName">soundName</a></span></li>
+	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/subtitle">subtitle</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/title">title</a></span></li>
@@ -109,6 +128,14 @@
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/feature">feature</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setFeature:">setFeature:</a></span></li>
+	
+</ul></li>
 
 
 			</ul>
@@ -142,6 +169,14 @@
 </tr>
 						</tbody></table></div>
 					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>notification names</p>
+					</div>
 					
 					
 					
@@ -210,6 +245,21 @@
 						</ul>
 						
 						
+						<a title="User Delivery Information" name="task_User Delivery Information"></a>
+						<h3 class="subsubtitle task-title">User Delivery Information</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/soundName">&nbsp;&nbsp;soundName</a></code>
+		<span class="tooltip"><p>Specifies the name of the sound to play when the notification is delivered.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
 						<a title="User Notification Activation Method" name="task_User Notification Activation Method"></a>
 						<h3 class="subsubtitle task-title">User Notification Activation Method</h3>
 
@@ -235,6 +285,28 @@
 		<span class="tooltip"><p>Application-specific user info that can be attached to the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="User Notification Additional Features" name="task_User Notification Additional Features"></a>
+						<h3 class="subsubtitle task-title">User Notification Additional Features</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/feature">&ndash;&nbsp;feature</a></code>
+		<span class="tooltip"><p>Returns the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setFeature:">&ndash;&nbsp;setFeature:</a></code>
+		<span class="tooltip"><p>Sets the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p></span>
+	</span>
+	
 	
 </li>
 						</ul>
@@ -273,7 +345,8 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.</p>
+		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for
+display and the property will be modified to reflect the truncation.</p>
 	</div>
 	
 	
@@ -325,7 +398,8 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This property specifies why the user notification was sent to to the <a href="../Protocols/CNUserNotificationCenterDelegate.html">CNUserNotificationCenterDelegate</a> method <code>userNotificationCenter:didActivateNotification:</code>.
+		<p>This property specifies why the user notification was sent to to the <a href="../Protocols/CNUserNotificationCenterDelegate.html">CNUserNotificationCenterDelegate</a> method
+<code>userNotificationCenter:didActivateNotification:</code>.
 The supported values are described in <code>CNUserNotificationActivationType</code>.</p>
 
 <pre><code>typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
@@ -374,7 +448,8 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Set to NO if the notification has no action button. This will be the case for notifications that are purely for informational purposes and have no user action.</p>
+		<p>Set to <code>NO</code> if the notification has no action button. This will be the case for notifications that are purely for
+informational purposes and have no user action.</p>
 
 <p>The default value is <code>YES</code>.</p>
 	</div>
@@ -428,7 +503,8 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.</p>
+		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for
+display and the property will be modified to reflect the truncation.</p>
 	</div>
 	
 	
@@ -480,7 +556,8 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.</p>
+		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for
+display and the property will be modified to reflect the truncation.</p>
 
 <p>An empty string will cause the default localized text to be used. A <code>nil</code> value is invalid.</p>
 	</div>
@@ -499,6 +576,48 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 			
 		</ul>
 	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNUserNotification.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/soundName" title="soundName"></a>
+	<h3 class="subsubtitle method-title">soundName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Specifies the name of the sound to play when the notification is delivered.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (copy) NSString *soundName</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Passing the <code>NSUserNotificationDefaultSoundName</code> constant causes the default notification center sound to be played.
+A value of nil means no sound is played.</p>
+	</div>
+	
+	
+	
+	
 	
 	
 	
@@ -534,7 +653,8 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.</p>
+		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for
+display and the property will be modified to reflect the truncation.</p>
 	</div>
 	
 	
@@ -586,7 +706,8 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.</p>
+		<p>This value should localized as it will be <a href="#//api/name/presented">presented</a> to the user. The string will be truncated to a length appropriate for
+display and the property will be modified to reflect the truncation.</p>
 	</div>
 	
 	
@@ -661,6 +782,84 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 					
 					
 					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/feature" title="feature"></a>
+	<h3 class="subsubtitle method-title">feature</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (CNUserNotificationFeature *)feature</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNUserNotification.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setFeature:" title="setFeature:"></a>
+	<h3 class="subsubtitle method-title">setFeature:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)setFeature:(CNUserNotificationFeature *)<em>theFeature</em></code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">CNUserNotification.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
 					
 				</div>
 				<div class="main-navigation navigation-bottom">
@@ -672,7 +871,7 @@ The supported values are described in <code>CNUserNotificationActivationType</co
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-05-17)</span><br />
+						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-05-26)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						

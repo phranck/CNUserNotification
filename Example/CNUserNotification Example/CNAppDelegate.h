@@ -21,6 +21,7 @@
 @property (strong) IBOutlet NSTextField *otherButtonTitle;
 @property (strong) IBOutlet NSTextField *urlToOpen;
 
+@property (strong) IBOutlet NSMatrix *lineBreakModeMatrix;
 @property (strong) IBOutlet NSMatrix *notificationSelectionMatrix;
 @property (strong) IBOutlet NSMatrix *bannerImageMatrix;
 @property (strong) IBOutlet NSSlider *dismissDelayTimeSlider;
@@ -28,6 +29,7 @@
 @property (strong) IBOutlet NSImageView *bannerImagePreview;
 
 - (IBAction)deliverButtonAction:(id)sender;
+- (IBAction)lineBreakModeMatrixAction:(id)sender;
 - (IBAction)notificationSelectionMatrixAction:(id)sender;
 - (IBAction)dismissDelayTimeSliderAction:(id)sender;
 - (IBAction)hasActionButtonCheckboxAction:(id)sender;

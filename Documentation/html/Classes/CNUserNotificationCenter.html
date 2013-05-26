@@ -40,8 +40,6 @@
 	
 	<option value="//api/name/delegate">&nbsp;&nbsp;&nbsp;&nbsp;delegate</option>
 	
-	<option value="//api/name/scheduledNotifications">&nbsp;&nbsp;&nbsp;&nbsp;scheduledNotifications</option>
-	
 	
 	
 	
@@ -57,10 +55,6 @@
 	<option value="instance_methods">Instance Methods</option>
 	
 	<option value="//api/name/deliverNotification:">&nbsp;&nbsp;&nbsp;&nbsp;- deliverNotification:</option>
-	
-	<option value="//api/name/removeScheduledNotification:">&nbsp;&nbsp;&nbsp;&nbsp;- removeScheduledNotification:</option>
-	
-	<option value="//api/name/scheduleNotification:">&nbsp;&nbsp;&nbsp;&nbsp;- scheduleNotification:</option>
 	
 	
 	
@@ -78,8 +72,6 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating a User Notification Center">Creating a User Notification Center</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Managing the Scheduled Notification Queue">Managing the Scheduled Notification Queue</a></span></li>
-	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Managing the Delivered Notifications">Managing the Delivered Notifications</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Getting and Setting the Delegate">Getting and Setting the Delegate</a></span></li>
@@ -93,8 +85,6 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delegate">delegate</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/scheduledNotifications">scheduledNotifications</a></span></li>
 	
 </ul></li>
 
@@ -113,10 +103,6 @@
 <li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/deliverNotification:">deliverNotification:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeScheduledNotification:">removeScheduledNotification:</a></span></li>
-	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/scheduleNotification:">scheduleNotification:</a></span></li>
 	
 </ul></li>
 
@@ -145,7 +131,7 @@
 	<td class="specification-value">NSObject</td>
 </tr><tr>
 	<td class="specification-title">Declared in</td>
-	<td class="specification-value">CNUserNotification.h</td>
+	<td class="specification-value">CNUserNotificationCenter.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -174,35 +160,6 @@
 	<span class="tooltip">
 		<code><a href="#//api/name/customUserNotificationCenter">+&nbsp;customUserNotificationCenter</a></code>
 		<span class="tooltip"><p>Allways returns the custom user notification center.</p></span>
-	</span>
-	
-	
-</li>
-						</ul>
-						
-						
-						<a title="Managing the Scheduled Notification Queue" name="task_Managing the Scheduled Notification Queue"></a>
-						<h3 class="subsubtitle task-title">Managing the Scheduled Notification Queue</h3>
-
-						<ul class="task-list">
-							<li>
-	<span class="tooltip">
-		<code><a href="#//api/name/scheduleNotification:">&ndash;&nbsp;scheduleNotification:</a></code>
-		<span class="tooltip"><p>Schedules the specified user notification.</p></span>
-	</span>
-	
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/scheduledNotifications">&nbsp;&nbsp;scheduledNotifications</a></code>
-		
-	</span>
-	<span class="task-item-suffix">property</span>
-	
-</li><li>
-	<span class="tooltip">
-		<code><a href="#//api/name/removeScheduledNotification:">&ndash;&nbsp;removeScheduledNotification:</a></code>
-		<span class="tooltip"><p>Removes the specified user notification for the scheduled notifications.</p></span>
 	</span>
 	
 	
@@ -261,7 +218,7 @@
 	
     
 
-	<div class="method-subsection method-declaration"><code>@property (assign) id&lt;CNUserNotificationCenterDelegate&gt; delegate</code></div>
+	<div class="method-subsection method-declaration"><code>@property (strong) id&lt;CNUserNotificationCenterDelegate&gt; delegate</code></div>
 
     
 	
@@ -284,39 +241,7 @@
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/scheduledNotifications" title="scheduledNotifications"></a>
-	<h3 class="subsubtitle method-title">scheduledNotifications</h3>
-	
-	
-	
-    
-
-	<div class="method-subsection method-declaration"><code>@property (copy) NSArray *scheduledNotifications</code></div>
-
-    
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
+		<code class="declared-in-ref">CNUserNotificationCenter.h</code><br />
 	</div>				
 	
 	
@@ -365,7 +290,7 @@
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
+		<code class="declared-in-ref">CNUserNotificationCenter.h</code><br />
 	</div>				
 	
 	
@@ -395,7 +320,7 @@
 	
 	<div class="method-subsection discussion-section">
 		<h4 class="method-subtitle">Discussion</h4>
-		<p>Creating an instance this way let the <code>CNUserNotificationCenter</code> class decide which implementation of notification center will be used regarding the environmental OS X version.</p><div class="note"><p><strong>Note:</strong> <br><strong>OS X 10.7</strong> &ndash; will return a <code>CNUserNotificationCenter</code><br><strong>OS X 10.8+</strong> &ndash; will return a <code>NSUserNotificationCenter</code></p></div>
+		<p>Creating an instance this way let the <code>CNUserNotificationCenter</code> class decide which implementation of notification center will be used regarding the environmental OS X version.</p><div class="note"><p><strong>Note:</strong> <br><strong>OS X 10.7</strong> &ndash; will return a <code>CNUserNotificationCenter</code> object<br><strong>OS X 10.8+</strong> &ndash; will return a <code>NSUserNotificationCenter</code> object</p></div>
 	</div>
 	
 	
@@ -406,7 +331,7 @@
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
+		<code class="declared-in-ref">CNUserNotificationCenter.h</code><br />
 	</div>				
 	
 	
@@ -465,109 +390,7 @@
 	
 	<div class="method-subsection declared-in-section">
 		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/removeScheduledNotification:" title="removeScheduledNotification:"></a>
-	<h3 class="subsubtitle method-title">removeScheduledNotification:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Removes the specified user notification for the scheduled notifications.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>- (void)removeScheduledNotification:(CNUserNotification *)<em>notification</em></code></div>
-
-    
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>notification</em></dt>
-			<dd><p>The user notification.</p></dd>
-		</dl>
-		
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>If the notification is not in the scheduled list, nothing happens.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
-	</div>				
-	
-	
-</div>
-						
-						<div class="section-method">
-	<a name="//api/name/scheduleNotification:" title="scheduleNotification:"></a>
-	<h3 class="subsubtitle method-title">scheduleNotification:</h3>
-	
-	
-	
-	<div class="method-subsection brief-description">
-		<p>Schedules the specified user notification.</p>
-	</div>		
-	
-    
-
-	<div class="method-subsection method-declaration"><code>- (void)scheduleNotification:(CNUserNotification *)<em>notification</em></code></div>
-
-    
-	
-	<div class="method-subsection arguments-section parameters">
-		<h4 class="method-subtitle parameter-title">Parameters</h4>
-		
-		<dl class="argument-def parameter-def">
-			<dt><em>notification</em></dt>
-			<dd><p>The user notification.</p></dd>
-		</dl>
-		
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection discussion-section">
-		<h4 class="method-subtitle">Discussion</h4>
-		<p>Scheduled notifications are added to the end of the notification queue.</p>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	<div class="method-subsection declared-in-section">
-		<h4 class="method-subtitle">Declared In</h4>
-		<code class="declared-in-ref">CNUserNotification.h</code><br />
+		<code class="declared-in-ref">CNUserNotificationCenter.h</code><br />
 	</div>				
 	
 	
@@ -586,7 +409,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-05-17)</span><br />
+						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-05-26)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						
