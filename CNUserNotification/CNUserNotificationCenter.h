@@ -47,7 +47,7 @@ NS_CLASS_AVAILABLE(10_7, NA)
  Creating an instance this way let the `CNUserNotificationCenter` class decide which implementation of notification center will be used regarding the environmental OS X version.
 
 
- @note <br>**OS X 10.7** - will return a `CNUserNotificationCenter`<br>**OS X 10.8+** - will return a `NSUserNotificationCenter`
+ @note <br>**OS X 10.7** - will return a `CNUserNotificationCenter` object<br>**OS X 10.8+** - will return a `NSUserNotificationCenter` object
 
  */
 + (instancetype)defaultUserNotificationCenter;

@@ -31,15 +31,13 @@
 #import <Foundation/Foundation.h>
 #import "CNUserNotificationCenter.h"
 #import "CNUserNotificationCenterDelegate.h"
-
+#import "CNUserNotificationFeature.h"
 
 
 /// notification names
-extern NSString *CNUserNotificationPresentedNotification;
-
-/// custom keys are used for the userInfo dictionary of a `CNUserNotification`
-extern NSString *kCNUserNotificationDismissDelayTimeKey;            /// this key is used to specify time a notification banner is visible on the screen
-extern NSString *kCNUserNotificationBannerImageKey;                 /// this key is used to set an alternate banner image instead of the default application icon image
+extern NSString *CNUserNotificationHasBeenPresentedNotification;
+extern NSString *CNUserNotificationDismissBannerNotification;
+extern NSString *CNUserNotificationActivatedWithTypeNotification;
 
 
 typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
@@ -58,7 +56,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies the title of the notification.
  
- This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.
+ This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for 
+ display and the property will be modified to reflect the truncation.
 
  @see subtitle
  @see informativeText
@@ -68,7 +67,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies the subtitle of the notification.
  
- This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.
+ This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for 
+ display and the property will be modified to reflect the truncation.
 
  @see title
  @see informativeText
@@ -78,7 +78,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  The body text of the notification.
  
- This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.
+ This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for 
+ display and the property will be modified to reflect the truncation.
 
  @see title
  @see subtitle
@@ -92,7 +93,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies whether the notification displays an action button.
  
- Set to NO if the notification has no action button. This will be the case for notifications that are purely for informational purposes and have no user action.
+ Set to `NO` if the notification has no action button. This will be the case for notifications that are purely for 
+ informational purposes and have no user action.
  
  The default value is `YES`.
 
@@ -104,7 +106,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies the title of the action button displayed in the notification.
  
- This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.
+ This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for 
+ display and the property will be modified to reflect the truncation.
 
  @see hasActionButton
  @see otherButtonTitle
@@ -114,7 +117,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies a custom title for the close button in an alert-style notification.
  
- This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for display and the property will be modified to reflect the truncation.
+ This value should localized as it will be presented to the user. The string will be truncated to a length appropriate for 
+ display and the property will be modified to reflect the truncation.
  
  An empty string will cause the default localized text to be used. A `nil` value is invalid.
 
@@ -129,6 +133,14 @@ NS_CLASS_AVAILABLE(10_7, NA)
 
 @property (readonly, getter=isPresented) BOOL presented;
 
+/**
+ Specifies the name of the sound to play when the notification is delivered.
+ 
+ Passing the `NSUserNotificationDefaultSoundName` constant causes the default notification center sound to be played.
+ A value of nil means no sound is played.
+ */
+@property (copy) NSString *soundName;
+
 
 #pragma mark - User Notification Activation Method
 /** @name User Notification Activation Method */
@@ -136,7 +148,8 @@ NS_CLASS_AVAILABLE(10_7, NA)
 /**
  Specifies what caused a user notification to occur. (read-only)
  
- This property specifies why the user notification was sent to to the CNUserNotificationCenterDelegate method `userNotificationCenter:didActivateNotification:`.
+ This property specifies why the user notification was sent to to the CNUserNotificationCenterDelegate method 
+ `userNotificationCenter:didActivateNotification:`.
  The supported values are described in `CNUserNotificationActivationType`.
  
     typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
@@ -158,4 +171,28 @@ NS_CLASS_AVAILABLE(10_7, NA)
  All items must be property list types or an exception will be thrown.
  */
 @property (copy) NSDictionary *userInfo;
+
+
+#pragma mark - User Notification Additional Features
+/** @name User Notification Additional Features */
+
+/**
+ Returns the CNUserNotificationFeature extension object.
+ */
+- (CNUserNotificationFeature *)feature;
+
+/**
+ Sets the CNUserNotificationFeature extension object.
+ */
+- (void)setFeature:(CNUserNotificationFeature *)theFeature;
+
+@end
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSUserNotification+CNUserNotificationAdditions
+@interface NSUserNotification (CNUserNotificationAdditions)
+- (CNUserNotificationFeature *)feature;
+- (void)setFeature:(CNUserNotificationFeature *)theFeature;
 @end

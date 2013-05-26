@@ -1,7 +1,7 @@
 //
-//  CNUserNotificationBannerBackgroundView.m
+//  CNUserNotificationBannerButtonCell.m
 //
-//  Created by Frank Gregor on 17.05.13.
+//  Created by Frank Gregor on 20.05.13.
 //  Copyright (c) 2013 cocoa:naut. All rights reserved.
 //
 
@@ -28,29 +28,40 @@
  THE SOFTWARE.
  */
 
-#import "CNUserNotificationBannerBackgroundView.h"
+#import "CNUserNotificationBannerButtonCell.h"
 
 
 static NSColor *gradientTopColor, *gradientBottomColor;
 static NSGradient *backgroundGradient;
-static CGFloat bannerRadius;
+static NSColor *strokeColor;
+static CGFloat borderRadius;
 
 
-@implementation CNUserNotificationBannerBackgroundView
+@implementation CNUserNotificationBannerButtonCell
 
 + (void)initialize
 {
-    gradientTopColor = [NSColor colorWithCalibratedWhite:0.975 alpha:0.950];
-    gradientBottomColor = [NSColor colorWithCalibratedWhite:0.820 alpha:0.950];
+    gradientTopColor = [NSColor colorWithCalibratedWhite:0.980 alpha:0.950];
+    gradientBottomColor = [NSColor colorWithCalibratedWhite:0.802 alpha:0.950];
     backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTopColor endingColor:gradientBottomColor];
-    bannerRadius = 5.0;
+    strokeColor = [NSColor colorWithCalibratedWhite:0.369 alpha:1.000];
+    borderRadius = 5.0;
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
 {
-    NSRect bounds = [self bounds];
-    NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRoundedRect:bounds xRadius:bannerRadius yRadius:bannerRadius];
-    [backgroundGradient drawInBezierPath:backgroundPath angle:-90];
+    NSRect borderRect = NSInsetRect(frame, 5, 5);
+    NSBezierPath *borderPath = [NSBezierPath bezierPathWithRoundedRect:borderRect xRadius:4 yRadius:4];
+    [strokeColor setFill];
+    [borderPath fill];
+
+    if (self.isHighlighted) {
+        NSBezierPath *buttonPath = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(borderRect, 0.5, 0.5) xRadius:4 yRadius:4];
+        [backgroundGradient drawInBezierPath:buttonPath angle:-90];
+    } else {
+        NSBezierPath *buttonPath = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(borderRect, 0.5, 0.5) xRadius:4 yRadius:4];
+        [backgroundGradient drawInBezierPath:buttonPath angle:90];
+    }
 }
 
 @end

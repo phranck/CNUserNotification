@@ -1,7 +1,7 @@
 //
-//  CNUserNotificationBannerController.h
+//  CNUserNotificationBannerButtonCell.h
 //
-//  Created by Frank Gregor on 16.05.13.
+//  Created by Frank Gregor on 20.05.13.
 //  Copyright (c) 2013 cocoa:naut. All rights reserved.
 //
 
@@ -29,16 +29,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "CNUserNotification.h"
 
-@interface CNUserNotificationBannerController : NSWindowController
-@property (strong) id<CNUserNotificationCenterDelegate> delegate;
-
-- (instancetype)initWithNotification:(CNUserNotification *)theNotification
-                            delegate:(id<CNUserNotificationCenterDelegate>)theDelegate
-                usingActivationBlock:(void(^)(CNUserNotificationActivationType activationType))activationBlock;
-- (void)presentBanner;
-- (void)presentBannerDismissAfter:(NSTimeInterval)dismissTimerInterval;
-- (void)dismissBanner;
+@interface CNUserNotificationBannerButtonCell : NSButtonCell
 
 @end

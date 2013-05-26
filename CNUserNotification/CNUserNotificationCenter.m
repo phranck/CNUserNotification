@@ -32,9 +32,12 @@
 
 
 NSString *kCNUserNotificationDismissDelayTimeKey = @"com.cocoanaut.userNotification.dismissDelayTime";
-NSString *kCNUserNotificationBannerImageKey = @"com.cocoanaut.userNotification.bannerImage";
+NSString *kCNUserNotificationBannerArchivedImageKey = @"com.cocoanaut.userNotification.bannerImage";
+NSString *kCNUserNotificationBannerLineBreakModeKey = @"com.cocoanaut.userNotification.bannerLineBreakMode";
 
-static NSUInteger kDefaultDismissDelayTime = 5;
+NSString *CNUserNotificationDismissBannerNotification = @"com.cocoanaut.userNotification.dismissBanner";
+NSString *CNUserNotificationActivatedWithTypeNotification = @"com.cocoanaut.userNotification.activatedWithType";
+
 
 @interface CNUserNotificationCenter () {}
 @property (strong) CNUserNotificationBannerController *notificationBannerController;
@@ -42,9 +45,12 @@ static NSUInteger kDefaultDismissDelayTime = 5;
 @property (strong, nonatomic) NSMutableArray *cn_scheduledNotifications;
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch"
 @implementation CNUserNotificationCenter
 
-+ (instancetype)defaultUserNotificationCenter {
++ (instancetype)defaultUserNotificationCenter
+{
     __strong static id sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -58,13 +64,12 @@ static NSUInteger kDefaultDismissDelayTime = 5;
 {
     __strong static id sharedInstance = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[[self class] alloc] init];
-    });
+    dispatch_once(&onceToken, ^{ sharedInstance = [[[self class] alloc] init]; });
     return sharedInstance;
 }
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         _notificationBannerController = nil;
@@ -73,28 +78,31 @@ static NSUInteger kDefaultDismissDelayTime = 5;
     return self;
 }
 
-- (void)deliverNotification:(CNUserNotification *)notification {
+- (void)deliverNotification:(CNUserNotification *)notification
+{
+    void (^activationBlock)(CNUserNotificationActivationType) = ^(CNUserNotificationActivationType activationType) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationActivatedWithTypeNotification object:@(activationType)];
+        switch (activationType) {
+            case CNUserNotificationActivationTypeContentsClicked:
+            case CNUserNotificationActivationTypeActionButtonClicked: {
+                CNUserNotificationCenter *center = [CNUserNotificationCenter defaultUserNotificationCenter];
+                if ([self userNotificationCenter:center shouldPresentNotification:notification]) {
+                    [self userNotificationCenter:center didActivateNotification:notification];
+                }
+                break;
+            }
+        }
+    };
+
+    self.notificationBannerController = nil;
     self.notificationBannerController = [[CNUserNotificationBannerController alloc] initWithNotification:notification
-                                                                                                delegate:self.delegate];
+                                                                                                delegate:self.delegate
+                                                                                    usingActivationBlock:activationBlock];
+    /// inform the delegate
     [self userNotificationCenter:self didDeliverNotification:notification];
 
-    NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo objectForKey:kCNUserNotificationDismissDelayTimeKey] != nil) {
-        [self.notificationBannerController presentBannerDismissAfter:[(NSNumber *)[userInfo objectForKey:kCNUserNotificationDismissDelayTimeKey] integerValue]];
-    } else {
-        [self.notificationBannerController presentBannerDismissAfter:kDefaultDismissDelayTime];
-    }
+    [self.notificationBannerController presentBannerDismissAfter:notification.feature.dismissDelayTime];
 }
-
-//- (void)scheduleNotification:(CNUserNotification *)notification
-//{
-//    
-//}
-//
-//- (void)removeScheduledNotification:(CNUserNotification *)notification
-//{
-//
-//}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,4 +115,22 @@ static NSUInteger kDefaultDismissDelayTime = 5;
     }
 }
 
+- (BOOL)userNotificationCenter:(CNUserNotificationCenter *)center shouldPresentNotification:(CNUserNotification *)notification
+{
+    BOOL shouldPresent = NO;
+    if ([self.delegate respondsToSelector:_cmd]) {
+        shouldPresent = [self.delegate userNotificationCenter:center shouldPresentNotification:notification];
+    }
+    return shouldPresent;
+}
+
+- (void)userNotificationCenter:(CNUserNotificationCenter *)center didActivateNotification:(CNUserNotification *)notification
+{
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate userNotificationCenter:center didActivateNotification:notification];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationDismissBannerNotification object:nil];
+    }
+}
+
 @end
+#pragma clang diagnostic pop

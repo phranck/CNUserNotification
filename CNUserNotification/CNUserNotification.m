@@ -28,45 +28,62 @@
  THE SOFTWARE.
  */
 
+#import <objc/runtime.h>
+
 #import "CNUserNotification.h"
 
 
 /// names for notifications
-NSString *CNUserNotificationPresentedNotification = @"com.cocoanaut.CNUserNotificationWasPresentedNotification";
+NSString *CNUserNotificationHasBeenPresentedNotification = @"com.cocoanaut.userNotification.hasBeenPresented";
+
 
 @interface CNUserNotification () {
-    id _CNInstance;
+    CNUserNotificationFeature *_feature;
 }
+@property id CNUserNotificationInstance;
 @end
 
 @implementation CNUserNotification
 
-- (id)init {
+- (instancetype)init
+{
     if (NSClassFromString(@"NSUserNotification")) {
-        _CNInstance = [[NSUserNotification alloc] init];
-        return _CNInstance;
-    } else {
+        _CNUserNotificationInstance = [[NSUserNotification alloc] init];
+    }
+
+    else {
         self = [super init];
         if (self) {
-            _CNInstance = nil;
+            _CNUserNotificationInstance = self;
+            _feature = [CNUserNotificationFeature new];
+            
             _title = nil;
             _subtitle = nil;
             _informativeText = nil;
-            _userInfo = [[NSDictionary alloc] init];
+            _hasActionButton = NO;
+            _actionButtonTitle = nil;
+            _otherButtonTitle = nil;
             _presented = NO;
+            _soundName = nil;
+            _activationType = CNUserNotificationActivationTypeNone;
+            _userInfo = [[NSDictionary alloc] init];
 
-            [[NSNotificationCenter defaultCenter] addObserverForName:CNUserNotificationPresentedNotification
-                                                              object:nil
-                                                               queue:[NSOperationQueue mainQueue]
-                                                          usingBlock:^(NSNotification *note) {
-                                                              _presented = YES;
-                                                          }];
+            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            [nc addObserverForName:CNUserNotificationHasBeenPresentedNotification object:nil queue:[NSOperationQueue mainQueue]
+                        usingBlock:^(NSNotification *note) {
+                            _presented = YES;
+                        }];
+            [nc addObserverForName:CNUserNotificationActivatedWithTypeNotification object:nil queue:[NSOperationQueue mainQueue]
+                        usingBlock:^(NSNotification *note) {
+                            _activationType = [[note object] integerValue];
+                        }];
         }
     }
-    return self;
+    return _CNUserNotificationInstance;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone
+{
     CNUserNotification *copy = [super copy];
     [copy setTitle:self.title];
     [copy setSubtitle:self.subtitle];
@@ -74,8 +91,39 @@ NSString *CNUserNotificationPresentedNotification = @"com.cocoanaut.CNUserNotifi
     [copy setHasActionButton:self.hasActionButton];
     [copy setActionButtonTitle:self.actionButtonTitle];
     [copy setOtherButtonTitle:self.otherButtonTitle];
+    [copy setSoundName:self.soundName];
     [copy setUserInfo:self.userInfo];
     return copy;
 }
 
+- (CNUserNotificationFeature *)feature
+{
+    return _feature;
+}
+
+- (void)setFeature:(CNUserNotificationFeature *)theFeature
+{
+    if (![_feature isEqual:theFeature]) {
+        _feature = nil;
+        _feature = theFeature;
+    }
+}
+
+@end
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - NSUserNotification+CNUserNotificationAdditions
+
+const char kCNUserNotificationFeature;
+
+@implementation NSUserNotification (CNUserNotificationAdditions)
+- (id)init {
+    self = [super init];
+    if (self) [self setFeature:[CNUserNotificationFeature new]];
+    return self;
+}
+- (CNUserNotificationFeature *)feature { return objc_getAssociatedObject(self, &kCNUserNotificationFeature); }
+- (void)setFeature:(CNUserNotificationFeature *)theFeature { objc_setAssociatedObject(self, &kCNUserNotificationFeature, theFeature, OBJC_ASSOCIATION_RETAIN_NONATOMIC); }
 @end

@@ -30,22 +30,33 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "CNUserNotificationBannerController.h"
+#import "CNUserNotificationBannerBackgroundView.h"
+#import "CNUserNotificationBannerButton.h"
 
 
-static NSTimeInterval slideInAnimationDuration = 0.35;
+static NSTimeInterval slideInAnimationDuration = 0.42;
 static NSTimeInterval slideOutAnimationDuration = 0.56;
 static NSDictionary *titleAttributes, *subtitleAttributes, *informativeTextAttributes;
 static NSRect presentationBeginRect, presentationRect, presentationEndRect;
-static CGFloat topMargin = 10;
-static CGFloat trailingMargin = 15;
+static CGFloat bannerTopMargin = 10;
+static CGFloat bannerTrailingMargin = 15;
+static CGSize bannerSize;
+static CGSize bannerImageSize;
+static CGFloat bannerContentPadding = 8;
+static CGFloat bannerContentLabelPadding = 1;
+static CGSize buttonSize;
 
 @interface CNUserNotificationBannerController () {
-    NSString *_cn_title;
-    NSString *_cn_subtitle;
-    NSString *_cn_informativeText;
-    NSDictionary *_cn_userInfo;
-    CNUserNotification *_cn_currentUserNotification;
+    NSDictionary *_userInfo;
+    CNUserNotification *_userNotification;
+    void (^_activationBlock)(CNUserNotificationActivationType);
+    CGFloat _labelWidth;
+    NSLineBreakMode _informativeTextLineBreakMode;
 }
+@property (strong, nonatomic) NSTextField *title;
+@property (strong, nonatomic) NSTextField *subtitle;
+@property (strong, nonatomic) NSTextField *informativeText;
+@property (strong, nonatomic) NSImageView *bannerImageView;
 @property (assign) BOOL animationIsRunning;
 @property (strong) NSTimer *dismissTimer;
 @end
@@ -55,46 +66,34 @@ static CGFloat trailingMargin = 15;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Initialization
 
-+ (void)initialize {
-    NSShadow *textShadow = [[NSShadow alloc] init];
-    [textShadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.5]];
-    [textShadow setShadowOffset:NSMakeSize(0, -1)];
-
-    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-    [textStyle setAlignment:NSLeftTextAlignment];
-
-    titleAttributes = @{
-        NSShadowAttributeName:          textShadow,
-        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.200 alpha:1.000],
-        NSParagraphStyleAttributeName:  textStyle,
-        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:12]
-    };
-
-    subtitleAttributes = @{
-        NSShadowAttributeName:          textShadow,
-        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.200 alpha:1.000],
-        NSParagraphStyleAttributeName:  textStyle,
-        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:11]
-    };
-
-    informativeTextAttributes = @{
-        NSShadowAttributeName:          textShadow,
-        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.496 alpha:1.000],
-        NSParagraphStyleAttributeName:  textStyle,
-        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande" size:11]
-    };
++ (void)initialize
+{
+    bannerSize = NSMakeSize(380.0, 70.0);
+    bannerImageSize = NSMakeSize(36.0, 36.0);
+    buttonSize = NSMakeSize(80.0, 32.0);
 }
 
-- (instancetype)initWithNotification:(CNUserNotification *)theNotification delegate:(id<CNUserNotificationCenterDelegate>)theDelegate {
-    self = [super initWithWindowNibName:NSStringFromClass([self class])];
+- (instancetype)initWithNotification:(CNUserNotification *)theNotification
+                            delegate:(id<CNUserNotificationCenterDelegate>)theDelegate
+                usingActivationBlock:(void(^)(CNUserNotificationActivationType activationType))activationBlock
+{
+    self = [super init];
     if (self) {
+        _activationBlock = activationBlock;
         _animationIsRunning = NO;
-        _cn_title = theNotification.title;
-        _cn_subtitle = theNotification.subtitle;
-        _cn_informativeText = theNotification.informativeText;
-        _cn_userInfo = theNotification.userInfo;
+        _userInfo = theNotification.userInfo;
         _delegate = theDelegate;
-        _cn_currentUserNotification = theNotification;
+        _userNotification = theNotification;
+        _informativeTextLineBreakMode = _userNotification.feature.lineBreakMode;
+
+        [self adjustTextFieldAttributes];
+
+        [[NSNotificationCenter defaultCenter] addObserverForName:CNUserNotificationDismissBannerNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification *note) {
+                                                          [self dismissBanner];
+                                                      }];
     }
     return self;
 }
@@ -102,10 +101,13 @@ static CGFloat trailingMargin = 15;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - API
 
-- (void)presentBanner {
+- (void)presentBanner
+{
     if (self.animationIsRunning) return;
 
     self.animationIsRunning = YES;
+
+    [self prepareNotificationBanner];
     [NSApp activateIgnoringOtherApps:YES];
 
     NSWindow *window = [self window];
@@ -122,17 +124,19 @@ static CGFloat trailingMargin = 15;
         self.animationIsRunning = NO;
         [window makeKeyAndOrderFront:self];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationPresentedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationHasBeenPresentedNotification object:nil];
     }];
 }
 
-- (void)presentBannerDismissAfter:(NSTimeInterval)dismissTimerInterval {
+- (void)presentBannerDismissAfter:(NSTimeInterval)dismissTimerInterval
+{
     [self presentBanner];
     self.dismissTimer = [NSTimer timerWithTimeInterval:dismissTimerInterval target:self selector:@selector(timedBannerDismiss:) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:self.dismissTimer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)dismissBanner {
+- (void)dismissBanner
+{
     if (self.animationIsRunning) return;
 
     self.animationIsRunning = YES;
@@ -145,102 +149,238 @@ static CGFloat trailingMargin = 15;
         
     } completionHandler:^{
         self.animationIsRunning = NO;
-        [self.window close];
+        [[self window] close];
     }];
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Helper
 
-- (void)timedBannerDismiss:(NSTimer *)theTimer {
+- (void)adjustTextFieldAttributes
+{
+    NSShadow *textShadow = [[NSShadow alloc] init];
+    [textShadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.5]];
+    [textShadow setShadowOffset:NSMakeSize(0, -1)];
+
+    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    [textStyle setAlignment:NSLeftTextAlignment];
+    [textStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+
+    titleAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:12],
+        NSParagraphStyleAttributeName:  textStyle
+    };
+
+    subtitleAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:11],
+        NSParagraphStyleAttributeName:  textStyle
+    };
+
+    [textStyle setLineBreakMode:_informativeTextLineBreakMode];
+    informativeTextAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.500 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande" size:11],
+        NSParagraphStyleAttributeName:  textStyle
+    };
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Actions
+
+- (void)activationButtonAction
+{
+    _activationBlock(CNUserNotificationActivationTypeActionButtonClicked);
+}
+
+- (void)otherButtonAction
+{
     [self dismissBanner];
 }
 
-- (void)calculateBannerPositions {
-    NSRect mainScreenFrame = [[NSScreen screens][0] frame];
-    CGFloat statusBarThickness = [[NSStatusBar systemStatusBar] thickness];
-
-    CGFloat bannerWidth = NSWidth([[self window] frame]);
-    CGFloat bannerHeight = NSHeight([[self window] frame]);
-
-    /// window position before slide in animation
-    presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - trailingMargin,
-                                       NSMaxY(mainScreenFrame) - bannerHeight - topMargin,
-                                       bannerWidth,
-                                       bannerHeight);
-
-    /// window position after slide in animation
-    presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth - trailingMargin,
-                                  NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topMargin,
-                                  bannerWidth,
-                                  bannerHeight);
-
-    /// window position after slide out animation
-    presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerWidth,
-                                     NSMaxY(mainScreenFrame) - statusBarThickness - bannerHeight - topMargin,
-                                     bannerWidth,
-                                     bannerHeight);
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - NSWindowController
+#pragma mark - Private Helper
 
-- (void)windowDidLoad {
-    [super windowDidLoad];
-    [self calculateBannerPositions];
+- (void)timedBannerDismiss:(NSTimer *)theTimer
+{
+    [self dismissBanner];
+}
 
-    NSWindow *window = [self window];
+- (void)calculateBannerPositions
+{
+    NSRect mainScreenFrame = [[NSScreen screens][0] frame];
+    CGFloat statusBarThickness = [[NSStatusBar systemStatusBar] thickness];
+    CGFloat calculatedBannerHeight = bannerContentPadding + self.title.intrinsicContentSize.height * 2 + self.informativeText.intrinsicContentSize.height + bannerContentLabelPadding * 2 + bannerContentPadding;
+    CGFloat delta = bannerSize.height - calculatedBannerHeight;
+    CGFloat bannerheight = (delta < 0 ? bannerSize.height + delta*-1 : bannerSize.height);
 
-    self.title.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_title attributes:titleAttributes];
-    self.subtitle.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_subtitle attributes:subtitleAttributes];
-    self.informativeText.attributedStringValue = [[NSAttributedString alloc] initWithString:_cn_informativeText attributes:informativeTextAttributes];
+    /// window position before slide in animation
+    presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width - bannerTrailingMargin,
+                                       NSMaxY(mainScreenFrame) - bannerheight - bannerTopMargin,
+                                       bannerSize.width,
+                                       bannerheight);
 
-    NSDictionary *userInfo = _cn_currentUserNotification.userInfo;
-    if ([userInfo objectForKey:kCNUserNotificationBannerImageKey]) {
-        self.bannerImageView.image = (NSImage *)[NSKeyedUnarchiver unarchiveObjectWithData:[userInfo objectForKey:kCNUserNotificationBannerImageKey]];
-    } else {
-        self.bannerImageView.image = [NSApp applicationIconImage];
+    /// window position after slide in animation
+    presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width - bannerTrailingMargin,
+                                  NSMaxY(mainScreenFrame) - statusBarThickness - bannerheight - bannerTopMargin,
+                                  bannerSize.width,
+                                  bannerheight);
+
+    /// window position after slide out animation
+    presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width,
+                                     NSMaxY(mainScreenFrame) - statusBarThickness - bannerheight - bannerTopMargin,
+                                     bannerSize.width,
+                                     bannerheight);
+}
+
+- (void)prepareNotificationBanner
+{
+    if (![self window]) {
+        [self setWindow:[[NSWindow alloc] initWithContentRect:NSZeroRect
+                                                    styleMask:NSBorderlessWindowMask
+                                                      backing:NSBackingStoreBuffered
+                                                        defer:NO
+                                                       screen:[NSScreen screens][0]]];
     }
 
-    [window setAlphaValue:0.0];
-    [window setLevel:NSStatusWindowLevel];
-    [window setStyleMask:NSBorderlessWindowMask];
-    [window setOpaque:NO];
-    [window setBackgroundColor:[NSColor clearColor]];
+    [[self window] setHasShadow:YES];
+    [[self window] setDisplaysWhenScreenProfileChanges:YES];
+    [[self window] setReleasedWhenClosed:NO];
+    [[self window] setAlphaValue:0.0];
+    [[self window] setOpaque:NO];
+    [[self window] setLevel:NSStatusWindowLevel];
+    [[self window] setBackgroundColor:[NSColor clearColor]];
+    [[self window] setCollectionBehavior:(NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorStationary)];
+
+    /// now we build the banner content
+    CNUserNotificationBannerBackgroundView *contentView = [[CNUserNotificationBannerBackgroundView alloc] init];
+    [[self window] setContentView:contentView];
+
+    self.bannerImageView = [NSImageView new];
+    self.bannerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.bannerImageView.image = _userNotification.feature.bannerImage;
+    [contentView addSubview:self.bannerImageView];
+
+    
+    self.title = [self labelWithidentifier:@"titleLabel"
+                       attributedTextValue:[[NSAttributedString alloc] initWithString:_userNotification.title attributes:titleAttributes]
+                                 superView:contentView];
+
+    self.subtitle = [self labelWithidentifier:@"subtitleLabel"
+                          attributedTextValue:[[NSAttributedString alloc] initWithString:_userNotification.subtitle attributes:subtitleAttributes]
+                                    superView:contentView];
+
+    self.informativeText = [self labelWithidentifier:@"informativeTextLabel"
+                                 attributedTextValue:[[NSAttributedString alloc] initWithString:_userNotification.informativeText attributes:informativeTextAttributes]
+                                           superView:contentView];
+
+    switch (_informativeTextLineBreakMode) {
+        case NSLineBreakByClipping:
+        case NSLineBreakByTruncatingHead:
+        case NSLineBreakByTruncatingTail:
+        case NSLineBreakByTruncatingMiddle:
+            [self.informativeText.cell setUsesSingleLineMode:YES];
+            break;
+
+        default:
+            [self.informativeText.cell setUsesSingleLineMode:NO];
+            break;
+    }
+
+    CNUserNotificationBannerButton *otherButton = [[CNUserNotificationBannerButton alloc] init];
+    CNUserNotificationBannerButton *activationButton = [[CNUserNotificationBannerButton alloc] init];
+    
+    NSDictionary *views = @{
+        @"bannerImage":         self.bannerImageView,
+        @"title":               self.title,
+        @"subtitle":            self.subtitle,
+        @"informativeText":     self.informativeText,
+        @"otherButton":         otherButton,
+        @"activationButton":    activationButton
+    };
+
+    _labelWidth = 0;
+    if (_userNotification.hasActionButton) {
+        _labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding + buttonSize.width + bannerContentPadding);
+    } else {
+        _labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding);
+    }
+    [self.informativeText setPreferredMaxLayoutWidth:_labelWidth];
+
+
+    NSDictionary *metrics = @{
+        @"padding":         @(bannerContentPadding),
+        @"labelPadding":    @(bannerContentLabelPadding),
+        @"labelHeight":     @(self.title.intrinsicContentSize.height),
+        @"labelWidth":      @(_labelWidth),
+        @"imageWidth":      @(bannerImageSize.width),
+        @"imageHeight":     @(bannerImageSize.height),
+        @"buttonWidth":     @(buttonSize.width)
+    };
+
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[bannerImage(imageHeight)]" options:0 metrics:metrics views:views]];
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=labelHeight)]"
+                                                                        options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
+    if (_userNotification.hasActionButton) {
+        otherButton.target = self;
+        otherButton.action = @selector(otherButtonAction);
+        otherButton.title = NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title");
+
+        activationButton.target = self;
+        activationButton.action = @selector(activationButtonAction);
+        activationButton.title = (![_userNotification.actionButtonTitle isEqualToString:@""] ? _userNotification.actionButtonTitle : NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title"));
+
+        [contentView addSubview:otherButton];
+        [contentView addSubview:activationButton];
+
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[otherButton]-padding-[activationButton]" options:0 metrics:metrics views:views]];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[bannerImage(imageWidth)]-padding-[title(labelWidth)]-padding-[otherButton(buttonWidth)]-padding-|" options:0 metrics:metrics views:views]];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[activationButton(==otherButton)]-padding-|" options:0 metrics:metrics views:views]];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[subtitle(==title)]" options:0 metrics:metrics views:views]];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[informativeText(==title)]" options:0 metrics:metrics views:views]];
+    }
+
+    else {
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[bannerImage(imageWidth)]-padding-[title(labelWidth)]-padding-|" options:0 metrics:metrics views:views]];
+    }
+
+    [self calculateBannerPositions];
+    [self showWindow:nil];
 }
+
+- (NSTextField *)labelWithidentifier:(NSString *)theIdentifier attributedTextValue:(NSAttributedString *)theTextValue superView:(NSView *)theSuperView
+{
+    NSTextField *aTextField = [NSTextField new];
+    aTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    aTextField.attributedStringValue = theTextValue;
+    aTextField.identifier = theIdentifier;
+    aTextField.drawsBackground = NO;
+    [aTextField setSelectable:NO];
+    [aTextField setEditable:NO];
+    [aTextField setBordered:NO];
+    [aTextField setAlignment:NSLeftTextAlignment];
+//    [aTextField.cell setLineBreakMode:NSLineBreakByTruncatingTail];
+//    [aTextField.cell setUsesSingleLineMode:YES];
+    [theSuperView addSubview:aTextField];
+
+    return aTextField;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSResponder
 
-- (void)mouseUp:(NSEvent *)theEvent {
-    CNUserNotificationCenter *center = [CNUserNotificationCenter defaultUserNotificationCenter];
-    if ([self userNotificationCenter:center shouldPresentNotification:_cn_currentUserNotification]) {
-        [self userNotificationCenter:center didActivateNotification:_cn_currentUserNotification];
-    }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - CNUserNotificationCenter Delegate
-
-- (void)userNotificationCenter:(CNUserNotificationCenter *)center didActivateNotification:(CNUserNotification *)notification {
-    if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate userNotificationCenter:center didActivateNotification:notification];
-        [self dismissBanner];
-    }
-}
-
-- (void)userNotificationCenter:(CNUserNotificationCenter *)center didDeliverNotification:(CNUserNotification *)notification {
-    if ([self.delegate respondsToSelector:_cmd]) {
-        [self.delegate userNotificationCenter:center didDeliverNotification:notification];
-    }
-}
-
-- (BOOL)userNotificationCenter:(CNUserNotificationCenter *)center shouldPresentNotification:(CNUserNotification *)notification {
-    BOOL shouldPresent = NO;
-    if ([self.delegate respondsToSelector:_cmd]) {
-        shouldPresent = [self.delegate userNotificationCenter:center shouldPresentNotification:notification];
-    }
-    return shouldPresent;
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    _activationBlock(CNUserNotificationActivationTypeContentsClicked);
 }
 
 @end
