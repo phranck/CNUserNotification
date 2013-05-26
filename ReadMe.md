@@ -24,17 +24,20 @@ You have to replace the `$DIR_WHERE_YOUR_SUBMODULES_ARE_PLACED` with the real pa
 
 
 ##Usage
-As described above all method signatures are identical to that ones of `CNUserNotification*` classes. Strictly speaking you have to use two classes and one delegate:
+As described above all method signatures are identical to that ones of `CNUserNotification*` classes. Strictly speaking you have to use three classes and one delegate:
 
 	CNUserNotification
 	CNUserNotificationCenter
+	CNUserNotificationFeature
 	CNUserNotificationDelegate
 
-That's all. The only thing you have to do is to replace the prefix `NS` by `CN`. It's not required to change any code if you use `CNUserNotification`. It decides by itself whether to use `NSNotfication`  (on 10.8) or this custom implementation (on 10.7). 
+That's all. `CNUserNotificationFeature` is the extension that doesn't exist in the original `NSUserNotification`, but there is a category to implement just two accessor methods.
+
+The only thing you have to do is to replace the prefix `NS` by `CN`. It's not required to change any code if you use `CNUserNotification`. It decides by itself whether to use `NSNotfication` or this custom implementation. 
 
 
 ##Requirements
-`CNSplitView` was written using ARC and runs on 10.7 and above. It requires the QuartzCore Framework.
+`CNUserNotification` was written using ARC and runs on 10.7 and above. It requires the QuartzCore Framework.
 
 
 ##Contribution
