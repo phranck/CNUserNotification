@@ -39,7 +39,8 @@
     notification.subtitle = self.subtitle.stringValue;
     notification.informativeText = self.informativeText.stringValue;
     notification.hasActionButton = (self.hasActionButtonCheckbox.state == NSOnState ? YES : NO);
-    notification.actionButtonTitle = (![self.actionButtonTitle.stringValue isEqualToString:@""] ? self.actionButtonTitle.stringValue : @"Action");
+    notification.soundName = (self.playNotificationSoundCheckbox.state == NSOnState ? NSUserNotificationDefaultSoundName : nil);
+    notification.actionButtonTitle = self.actionButtonTitle.stringValue;
     notification.feature.dismissDelayTime = self.dismissDelayTime;
     notification.feature.bannerImage = self.bannerImagePreview.image;
     notification.feature.lineBreakMode = self.lineBreakMode;

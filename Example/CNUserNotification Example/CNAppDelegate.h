@@ -26,6 +26,7 @@
 @property (strong) IBOutlet NSMatrix *bannerImageMatrix;
 @property (strong) IBOutlet NSSlider *dismissDelayTimeSlider;
 @property (strong) IBOutlet NSButton *hasActionButtonCheckbox;
+@property (strong) IBOutlet NSButton *playNotificationSoundCheckbox;
 @property (strong) IBOutlet NSImageView *bannerImagePreview;
 
 - (IBAction)deliverButtonAction:(id)sender;
