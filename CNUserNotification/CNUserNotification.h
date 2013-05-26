@@ -128,16 +128,32 @@ NS_CLASS_AVAILABLE(10_7, NA)
 @property (copy) NSString *otherButtonTitle;
 
 
+#pragma mark - Delivery Timing
+/** @name User Delivery Timing */
+
+@property (copy) NSDate *deliveryDate;
+
+@property (readonly) NSDate *actualDeliveryDate;
+
+@property (copy) NSDateComponents *deliveryRepeatInterval;
+
+@property (copy) NSTimeZone *deliveryTimeZone;
+
+
 #pragma mark - Delivery Information
 /** @name User Delivery Information */
 
 @property (readonly, getter=isPresented) BOOL presented;
+
+@property (readonly, getter=isRemote) BOOL remote;
 
 /**
  Specifies the name of the sound to play when the notification is delivered.
  
  Passing the `NSUserNotificationDefaultSoundName` constant causes the default notification center sound to be played.
  A value of nil means no sound is played.
+ 
+ Default value is `nil`.
  */
 @property (copy) NSString *soundName;
 
