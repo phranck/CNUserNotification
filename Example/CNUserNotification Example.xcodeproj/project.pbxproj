@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FD410C361746BDA7009C2424 /* CNUserNotification Example.iconset in Resources */ = {isa = PBXBuildFile; fileRef = FD410C351746BDA7009C2424 /* CNUserNotification Example.iconset */; };
-		FDB9F74317518845007E1D86 /* CNUserNotificationFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB9F74217518845007E1D86 /* CNUserNotificationFeature.m */; };
 		FDC13CC917483595001E4BE1 /* banner-image-1.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC13CC717483595001E4BE1 /* banner-image-1.png */; };
 		FDC13CCA17483595001E4BE1 /* banner-image-2.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC13CC817483595001E4BE1 /* banner-image-2.png */; };
 		FDC3FFC817467F4000DEA770 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC3FFC717467F4000DEA770 /* Cocoa.framework */; };
@@ -17,22 +16,20 @@
 		FDC3FFD817467F4000DEA770 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = FDC3FFD617467F4000DEA770 /* Credits.rtf */; };
 		FDC3FFDB17467F4000DEA770 /* CNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFDA17467F4000DEA770 /* CNAppDelegate.m */; };
 		FDC3FFDE17467F4000DEA770 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDC3FFDC17467F4000DEA770 /* MainMenu.xib */; };
-		FDC3FFEE17467FA500DEA770 /* CNUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFE717467FA500DEA770 /* CNUserNotification.m */; };
-		FDC3FFEF17467FA500DEA770 /* CNUserNotificationBannerBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFE917467FA500DEA770 /* CNUserNotificationBannerBackgroundView.m */; };
-		FDC3FFF017467FA500DEA770 /* CNUserNotificationBannerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFEB17467FA500DEA770 /* CNUserNotificationBannerController.m */; };
-		FDC3FFF217467FA500DEA770 /* CNUserNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3FFED17467FA500DEA770 /* CNUserNotificationCenter.m */; };
 		FDC3FFF417467FF100DEA770 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC3FFF317467FF100DEA770 /* QuartzCore.framework */; };
-		FDDB7415174A4EC90007F00B /* CNUserNotificationBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDB7414174A4EC90007F00B /* CNUserNotificationBannerButton.m */; };
-		FDDB7418174A4ED90007F00B /* CNUserNotificationBannerButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDB7417174A4ED90007F00B /* CNUserNotificationBannerButtonCell.m */; };
+		FDCA6C1517529B5700D819F0 /* CNUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C0617529B5700D819F0 /* CNUserNotification.m */; };
+		FDCA6C1617529B5700D819F0 /* CNUserNotificationBannerBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C0817529B5700D819F0 /* CNUserNotificationBannerBackgroundView.m */; };
+		FDCA6C1717529B5700D819F0 /* CNUserNotificationBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C0A17529B5700D819F0 /* CNUserNotificationBannerButton.m */; };
+		FDCA6C1817529B5700D819F0 /* CNUserNotificationBannerButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C0C17529B5700D819F0 /* CNUserNotificationBannerButtonCell.m */; };
+		FDCA6C1917529B5700D819F0 /* CNUserNotificationBannerController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C0E17529B5700D819F0 /* CNUserNotificationBannerController.m */; };
+		FDCA6C1A17529B5700D819F0 /* CNUserNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C1017529B5700D819F0 /* CNUserNotificationCenter.m */; };
+		FDCA6C1C17529B5700D819F0 /* CNUserNotificationFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA6C1417529B5700D819F0 /* CNUserNotificationFeature.m */; };
+		FDCA6C201752A04400D819F0 /* CNUserNotificationDefaultSound.aif in Resources */ = {isa = PBXBuildFile; fileRef = FDCA6C1D1752A04400D819F0 /* CNUserNotificationDefaultSound.aif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FD3CDE251746ED6A00C96E17 /* CNLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNLog.h; sourceTree = "<group>"; };
-		FD410C331746AFD9009C2424 /* CNUserNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenter.h; sourceTree = "<group>"; };
-		FD410C341746B084009C2424 /* CNUserNotificationCenterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenterDelegate.h; sourceTree = "<group>"; };
 		FD410C351746BDA7009C2424 /* CNUserNotification Example.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = "CNUserNotification Example.iconset"; sourceTree = "<group>"; };
-		FDB9F74117518845007E1D86 /* CNUserNotificationFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationFeature.h; sourceTree = "<group>"; };
-		FDB9F74217518845007E1D86 /* CNUserNotificationFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationFeature.m; sourceTree = "<group>"; };
 		FDC13CC717483595001E4BE1 /* banner-image-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-image-1.png"; sourceTree = "<group>"; };
 		FDC13CC817483595001E4BE1 /* banner-image-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner-image-2.png"; sourceTree = "<group>"; };
 		FDC3FFC417467F4000DEA770 /* CNUserNotification Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CNUserNotification Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,18 +45,23 @@
 		FDC3FFD917467F4000DEA770 /* CNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNAppDelegate.h; sourceTree = "<group>"; };
 		FDC3FFDA17467F4000DEA770 /* CNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNAppDelegate.m; sourceTree = "<group>"; };
 		FDC3FFDD17467F4000DEA770 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		FDC3FFE617467FA500DEA770 /* CNUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotification.h; sourceTree = "<group>"; };
-		FDC3FFE717467FA500DEA770 /* CNUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotification.m; sourceTree = "<group>"; };
-		FDC3FFE817467FA500DEA770 /* CNUserNotificationBannerBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerBackgroundView.h; sourceTree = "<group>"; };
-		FDC3FFE917467FA500DEA770 /* CNUserNotificationBannerBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerBackgroundView.m; sourceTree = "<group>"; };
-		FDC3FFEA17467FA500DEA770 /* CNUserNotificationBannerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerController.h; sourceTree = "<group>"; };
-		FDC3FFEB17467FA500DEA770 /* CNUserNotificationBannerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerController.m; sourceTree = "<group>"; };
-		FDC3FFED17467FA500DEA770 /* CNUserNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationCenter.m; sourceTree = "<group>"; };
 		FDC3FFF317467FF100DEA770 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		FDDB7413174A4EC90007F00B /* CNUserNotificationBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerButton.h; sourceTree = "<group>"; };
-		FDDB7414174A4EC90007F00B /* CNUserNotificationBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerButton.m; sourceTree = "<group>"; };
-		FDDB7416174A4ED90007F00B /* CNUserNotificationBannerButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerButtonCell.h; sourceTree = "<group>"; };
-		FDDB7417174A4ED90007F00B /* CNUserNotificationBannerButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerButtonCell.m; sourceTree = "<group>"; };
+		FDCA6C0517529B5700D819F0 /* CNUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotification.h; sourceTree = "<group>"; };
+		FDCA6C0617529B5700D819F0 /* CNUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotification.m; sourceTree = "<group>"; };
+		FDCA6C0717529B5700D819F0 /* CNUserNotificationBannerBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerBackgroundView.h; sourceTree = "<group>"; };
+		FDCA6C0817529B5700D819F0 /* CNUserNotificationBannerBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerBackgroundView.m; sourceTree = "<group>"; };
+		FDCA6C0917529B5700D819F0 /* CNUserNotificationBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerButton.h; sourceTree = "<group>"; };
+		FDCA6C0A17529B5700D819F0 /* CNUserNotificationBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerButton.m; sourceTree = "<group>"; };
+		FDCA6C0B17529B5700D819F0 /* CNUserNotificationBannerButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerButtonCell.h; sourceTree = "<group>"; };
+		FDCA6C0C17529B5700D819F0 /* CNUserNotificationBannerButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerButtonCell.m; sourceTree = "<group>"; };
+		FDCA6C0D17529B5700D819F0 /* CNUserNotificationBannerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationBannerController.h; sourceTree = "<group>"; };
+		FDCA6C0E17529B5700D819F0 /* CNUserNotificationBannerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationBannerController.m; sourceTree = "<group>"; };
+		FDCA6C0F17529B5700D819F0 /* CNUserNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenter.h; sourceTree = "<group>"; };
+		FDCA6C1017529B5700D819F0 /* CNUserNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationCenter.m; sourceTree = "<group>"; };
+		FDCA6C1117529B5700D819F0 /* CNUserNotificationCenterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationCenterDelegate.h; sourceTree = "<group>"; };
+		FDCA6C1317529B5700D819F0 /* CNUserNotificationFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserNotificationFeature.h; sourceTree = "<group>"; };
+		FDCA6C1417529B5700D819F0 /* CNUserNotificationFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserNotificationFeature.m; sourceTree = "<group>"; };
+		FDCA6C1D1752A04400D819F0 /* CNUserNotificationDefaultSound.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = CNUserNotificationDefaultSound.aif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,29 +153,30 @@
 		FDC3FFE417467F7000DEA770 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				FDC3FFE517467FA500DEA770 /* CNUserNotification */,
+				FDCA6C0417529B5700D819F0 /* CNUserNotification */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
 		};
-		FDC3FFE517467FA500DEA770 /* CNUserNotification */ = {
+		FDCA6C0417529B5700D819F0 /* CNUserNotification */ = {
 			isa = PBXGroup;
 			children = (
-				FDC3FFE617467FA500DEA770 /* CNUserNotification.h */,
-				FDC3FFE717467FA500DEA770 /* CNUserNotification.m */,
-				FDB9F74117518845007E1D86 /* CNUserNotificationFeature.h */,
-				FDB9F74217518845007E1D86 /* CNUserNotificationFeature.m */,
-				FD410C331746AFD9009C2424 /* CNUserNotificationCenter.h */,
-				FDC3FFED17467FA500DEA770 /* CNUserNotificationCenter.m */,
-				FD410C341746B084009C2424 /* CNUserNotificationCenterDelegate.h */,
-				FDC3FFE817467FA500DEA770 /* CNUserNotificationBannerBackgroundView.h */,
-				FDC3FFE917467FA500DEA770 /* CNUserNotificationBannerBackgroundView.m */,
-				FDDB7413174A4EC90007F00B /* CNUserNotificationBannerButton.h */,
-				FDDB7414174A4EC90007F00B /* CNUserNotificationBannerButton.m */,
-				FDDB7416174A4ED90007F00B /* CNUserNotificationBannerButtonCell.h */,
-				FDDB7417174A4ED90007F00B /* CNUserNotificationBannerButtonCell.m */,
-				FDC3FFEA17467FA500DEA770 /* CNUserNotificationBannerController.h */,
-				FDC3FFEB17467FA500DEA770 /* CNUserNotificationBannerController.m */,
+				FDCA6C0517529B5700D819F0 /* CNUserNotification.h */,
+				FDCA6C0617529B5700D819F0 /* CNUserNotification.m */,
+				FDCA6C0717529B5700D819F0 /* CNUserNotificationBannerBackgroundView.h */,
+				FDCA6C0817529B5700D819F0 /* CNUserNotificationBannerBackgroundView.m */,
+				FDCA6C0917529B5700D819F0 /* CNUserNotificationBannerButton.h */,
+				FDCA6C0A17529B5700D819F0 /* CNUserNotificationBannerButton.m */,
+				FDCA6C0B17529B5700D819F0 /* CNUserNotificationBannerButtonCell.h */,
+				FDCA6C0C17529B5700D819F0 /* CNUserNotificationBannerButtonCell.m */,
+				FDCA6C0D17529B5700D819F0 /* CNUserNotificationBannerController.h */,
+				FDCA6C0E17529B5700D819F0 /* CNUserNotificationBannerController.m */,
+				FDCA6C0F17529B5700D819F0 /* CNUserNotificationCenter.h */,
+				FDCA6C1017529B5700D819F0 /* CNUserNotificationCenter.m */,
+				FDCA6C1117529B5700D819F0 /* CNUserNotificationCenterDelegate.h */,
+				FDCA6C1D1752A04400D819F0 /* CNUserNotificationDefaultSound.aif */,
+				FDCA6C1317529B5700D819F0 /* CNUserNotificationFeature.h */,
+				FDCA6C1417529B5700D819F0 /* CNUserNotificationFeature.m */,
 			);
 			name = CNUserNotification;
 			path = ../../CNUserNotification;
@@ -237,6 +240,7 @@
 				FD410C361746BDA7009C2424 /* CNUserNotification Example.iconset in Resources */,
 				FDC13CC917483595001E4BE1 /* banner-image-1.png in Resources */,
 				FDC13CCA17483595001E4BE1 /* banner-image-2.png in Resources */,
+				FDCA6C201752A04400D819F0 /* CNUserNotificationDefaultSound.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,13 +253,13 @@
 			files = (
 				FDC3FFD417467F4000DEA770 /* main.m in Sources */,
 				FDC3FFDB17467F4000DEA770 /* CNAppDelegate.m in Sources */,
-				FDC3FFEE17467FA500DEA770 /* CNUserNotification.m in Sources */,
-				FDC3FFEF17467FA500DEA770 /* CNUserNotificationBannerBackgroundView.m in Sources */,
-				FDC3FFF017467FA500DEA770 /* CNUserNotificationBannerController.m in Sources */,
-				FDC3FFF217467FA500DEA770 /* CNUserNotificationCenter.m in Sources */,
-				FDDB7415174A4EC90007F00B /* CNUserNotificationBannerButton.m in Sources */,
-				FDDB7418174A4ED90007F00B /* CNUserNotificationBannerButtonCell.m in Sources */,
-				FDB9F74317518845007E1D86 /* CNUserNotificationFeature.m in Sources */,
+				FDCA6C1517529B5700D819F0 /* CNUserNotification.m in Sources */,
+				FDCA6C1617529B5700D819F0 /* CNUserNotificationBannerBackgroundView.m in Sources */,
+				FDCA6C1717529B5700D819F0 /* CNUserNotificationBannerButton.m in Sources */,
+				FDCA6C1817529B5700D819F0 /* CNUserNotificationBannerButtonCell.m in Sources */,
+				FDCA6C1917529B5700D819F0 /* CNUserNotificationBannerController.m in Sources */,
+				FDCA6C1A17529B5700D819F0 /* CNUserNotificationCenter.m in Sources */,
+				FDCA6C1C17529B5700D819F0 /* CNUserNotificationFeature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
