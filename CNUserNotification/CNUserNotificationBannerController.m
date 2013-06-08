@@ -374,8 +374,6 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
     [aTextField setEditable:NO];
     [aTextField setBordered:NO];
     [aTextField setAlignment:NSLeftTextAlignment];
-//    [aTextField.cell setLineBreakMode:NSLineBreakByTruncatingTail];
-//    [aTextField.cell setUsesSingleLineMode:YES];
     [theSuperView addSubview:aTextField];
 
     return aTextField;
