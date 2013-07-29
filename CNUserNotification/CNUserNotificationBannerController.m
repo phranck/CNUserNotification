@@ -322,13 +322,23 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
         self.otherButton = [CNUserNotificationBannerButton new];
         self.otherButton.target = self;
         self.otherButton.action = @selector(otherButtonAction);
-        self.otherButton.title = (![_userNotification.otherButtonTitle isEqualToString:@""] ? _userNotification.otherButtonTitle : NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title"));
+        if (!_userNotification.otherButtonTitle) {
+            self.otherButton.title = NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title");
+        }
+        else {
+            self.otherButton.title = (![_userNotification.otherButtonTitle isEqualToString:@""] ? _userNotification.otherButtonTitle : NSLocalizedString(@"Close", @"CNUserNotificationBannerController: Other-Button title"));
+        }
         [[[self window] contentView] addSubview:self.otherButton];
 
 		self.actionButton = [CNUserNotificationBannerButton new];
 		self.actionButton.target = self;
 		self.actionButton.action = @selector(actionButtonAction);
-		self.actionButton.title = (![_userNotification.actionButtonTitle isEqualToString:@""] ? _userNotification.actionButtonTitle : NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title"));
+        if (!_userNotification.actionButtonTitle) {
+            self.actionButton.title = NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title");
+        }
+        else {
+            self.actionButton.title = (![_userNotification.actionButtonTitle isEqualToString:@""] ? _userNotification.actionButtonTitle : NSLocalizedString(@"Show", @"CNUserNotificationBannerController: Activation-Button title"));
+        }
 		[[[self window] contentView] addSubview:self.actionButton];
 
 		_calculatedButtonWidth = CNGetMaxCGFloat(self.otherButton.intrinsicContentSize.width, self.actionButton.intrinsicContentSize.width);
@@ -371,12 +381,10 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
     [metrics setValue:@(_labelWidth) forKey:@"labelWidth"];
 	[self.informativeText setPreferredMaxLayoutWidth:_labelWidth];
 
-
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[bannerImage(imageHeight)]" options:0 metrics:metrics views:views]];
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=labelHeight)]"
 	                                                                    options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
 	if (_userNotification.hasActionButton) {
-
 		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[otherButton]-padding-[actionButton]" options:0 metrics:metrics views:views]];
 		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[bannerImage(imageWidth)]-padding-[title(labelWidth)]-padding-[otherButton(buttonWidth)]-padding-|" options:0 metrics:metrics views:views]];
 		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[actionButton(==otherButton)]-padding-|" options:0 metrics:metrics views:views]];
