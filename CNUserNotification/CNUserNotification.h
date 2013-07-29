@@ -101,7 +101,7 @@ NS_CLASS_AVAILABLE(10_7, NA)
  @see actionButtonTitle
  @see otherButtonTitle
  */
-@property  BOOL hasActionButton;
+@property BOOL hasActionButton;
 
 /**
  Specifies the title of the action button displayed in the notification.

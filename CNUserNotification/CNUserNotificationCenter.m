@@ -80,7 +80,7 @@ NSString *CNUserNotificationActivatedWithTypeNotification = @"com.cocoanaut.user
 
 - (void)deliverNotification:(CNUserNotification *)notification
 {
-    void (^activationBlock)(CNUserNotificationActivationType) = ^(CNUserNotificationActivationType activationType) {
+    CNUserNotificationBannerActivationHandler activationHandler = ^(CNUserNotificationActivationType activationType) {
         [[NSNotificationCenter defaultCenter] postNotificationName:CNUserNotificationActivatedWithTypeNotification object:@(activationType)];
         switch (activationType) {
             case CNUserNotificationActivationTypeContentsClicked:
@@ -97,7 +97,7 @@ NSString *CNUserNotificationActivatedWithTypeNotification = @"com.cocoanaut.user
     self.notificationBannerController = nil;
     self.notificationBannerController = [[CNUserNotificationBannerController alloc] initWithNotification:notification
                                                                                                 delegate:self.delegate
-                                                                                    usingActivationBlock:activationBlock];
+                                                                                usingActivationHandler:activationHandler];
     /// inform the delegate
     [self userNotificationCenter:self didDeliverNotification:notification];
 
