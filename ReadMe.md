@@ -18,7 +18,7 @@ Just add `pod 'CNUserNotification'` to your podfile.
 
 
 ####Via Git SubModule
-`cd` into your project directory and execute `git submodule add https://github.com/phranck/CNSplitView.git $DIR_WHERE_YOUR_SUBMODULES_ARE_PLACED`
+`cd` into your project directory and execute `git submodule add https://github.com/phranck/CNUserNotification.git $DIR_WHERE_YOUR_SUBMODULES_ARE_PLACED`
 
 You have to replace the `$DIR_WHERE_YOUR_SUBMODULES_ARE_PLACED` with the real path where your submodules are placed.
 
