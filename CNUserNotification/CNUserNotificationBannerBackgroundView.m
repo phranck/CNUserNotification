@@ -38,19 +38,17 @@ static CGFloat bannerRadius;
 
 @implementation CNUserNotificationBannerBackgroundView
 
-+ (void)initialize
-{
-    gradientTopColor = [NSColor colorWithCalibratedWhite:0.975 alpha:0.950];
-    gradientBottomColor = [NSColor colorWithCalibratedWhite:0.820 alpha:0.950];
-    backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTopColor endingColor:gradientBottomColor];
-    bannerRadius = 5.0;
++ (void)initialize {
+	gradientTopColor = [NSColor colorWithCalibratedWhite:0.975 alpha:0.950];
+	gradientBottomColor = [NSColor colorWithCalibratedWhite:0.820 alpha:0.950];
+	backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTopColor endingColor:gradientBottomColor];
+	bannerRadius = 5.0;
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    NSRect bounds = [self bounds];
-    NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRoundedRect:bounds xRadius:bannerRadius yRadius:bannerRadius];
-    [backgroundGradient drawInBezierPath:backgroundPath angle:-90];
+- (void)drawRect:(NSRect)dirtyRect {
+	NSRect bounds = [self bounds];
+	NSBezierPath *backgroundPath = [NSBezierPath bezierPathWithRoundedRect:bounds xRadius:bannerRadius yRadius:bannerRadius];
+	[backgroundGradient drawInBezierPath:backgroundPath angle:-90];
 }
 
 @end
