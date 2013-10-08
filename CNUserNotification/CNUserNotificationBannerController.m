@@ -40,11 +40,8 @@ static NSDictionary *titleAttributes, *subtitleAttributes, *informativeTextAttri
 static NSRect presentationBeginRect, presentationRect, presentationEndRect;
 static CGFloat bannerTopMargin = 10;
 static CGFloat bannerTrailingMargin = 15;
-static CGSize bannerSize;
-static CGSize bannerImageSize;
 static CGFloat bannerContentPadding = 8;
 static CGFloat bannerContentLabelPadding = 1;
-static CGSize buttonSize;
 
 
 CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
@@ -59,6 +56,9 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 	NSLineBreakMode _informativeTextLineBreakMode;
 	CGFloat _calculatedButtonWidth;
 	BOOL _hasActionButton;
+    CGSize _bannerSize;
+    CGSize _bannerImageSize;
+    CGSize _buttonSize;
 }
 @property (strong, nonatomic) NSTextField *title;
 @property (strong, nonatomic) NSTextField *subtitle;
@@ -74,17 +74,15 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 
 #pragma mark - Initialization
 
-+ (void)initialize {
-	bannerSize = NSMakeSize(380.0, 70.0);
-	bannerImageSize = NSMakeSize(36.0, 36.0);
-	buttonSize = NSMakeSize(80.0, 32.0);
-}
-
 - (instancetype)initWithNotification:(CNUserNotification *)theNotification
                             delegate:(id <CNUserNotificationCenterDelegate> )theDelegate
               usingActivationHandler:(CNUserNotificationBannerActivationHandler)activationHandler {
 	self = [super init];
 	if (self) {
+        _bannerSize = NSMakeSize(380.0, 70.0);
+        _bannerImageSize = NSMakeSize(36.0, 36.0);
+        _buttonSize = NSMakeSize(80.0, 32.0);
+
 		_bannerActivationHandler = [activationHandler copy];
 		_animationIsRunning = NO;
 		_userInfo = theNotification.userInfo;
@@ -112,7 +110,6 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 
 - (void)presentBanner {
 	if (self.animationIsRunning) return;
-
 	self.animationIsRunning = YES;
 
 	[self prepareNotificationBanner];
@@ -138,8 +135,11 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 
 - (void)presentBannerDismissAfter:(NSTimeInterval)dismissTimerInterval {
 	[self presentBanner];
-	self.dismissTimer = [NSTimer timerWithTimeInterval:dismissTimerInterval target:self selector:@selector(timedBannerDismiss:) userInfo:nil repeats:NO];
-	[[NSRunLoop mainRunLoop] addTimer:self.dismissTimer forMode:NSDefaultRunLoopMode];
+    self.dismissTimer = [NSTimer scheduledTimerWithTimeInterval:dismissTimerInterval
+                                                         target:self
+                                                       selector:@selector(timedBannerDismiss:)
+                                                       userInfo:nil
+                                                        repeats:NO];
 }
 
 - (void)dismissBanner {
@@ -180,21 +180,27 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 	[textStyle setAlignment:NSLeftTextAlignment];
 	[textStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-	titleAttributes = @{ NSShadowAttributeName:          textShadow,
-                         NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
-                         NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:12],
-                         NSParagraphStyleAttributeName:  textStyle };
+	titleAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:12],
+        NSParagraphStyleAttributeName:  textStyle
+    };
 
-	subtitleAttributes = @{ NSShadowAttributeName:          textShadow,
-                            NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
-                            NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:11],
-                            NSParagraphStyleAttributeName:  textStyle };
+	subtitleAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.280 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande-Bold" size:11],
+        NSParagraphStyleAttributeName:  textStyle
+    };
 
 	[textStyle setLineBreakMode:_informativeTextLineBreakMode];
-	informativeTextAttributes = @{ NSShadowAttributeName:          textShadow,
-                                   NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.500 alpha:1.000],
-                                   NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande" size:11],
-                                   NSParagraphStyleAttributeName:  textStyle };
+	informativeTextAttributes = @{
+        NSShadowAttributeName:          textShadow,
+        NSForegroundColorAttributeName: [NSColor colorWithCalibratedWhite:0.500 alpha:1.000],
+        NSFontAttributeName:            [NSFont fontWithName:@"LucidaGrande" size:11],
+        NSParagraphStyleAttributeName:  textStyle
+    };
 }
 
 - (void)timedBannerDismiss:(NSTimer *)theTimer {
@@ -205,25 +211,25 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 	NSRect mainScreenFrame = [[NSScreen screens][0] frame];
 	CGFloat statusBarThickness = [[NSStatusBar systemStatusBar] thickness];
 	CGFloat calculatedBannerHeight = bannerContentPadding + self.title.intrinsicContentSize.height * 2 + [self informativeTextHeightForWidth:(_labelWidth)] + bannerContentLabelPadding * 2 + bannerContentPadding;
-	CGFloat delta = bannerSize.height - calculatedBannerHeight;
-	CGFloat bannerheight = (delta < 0 ? bannerSize.height + delta * -1 : bannerSize.height);
+	CGFloat delta = _bannerSize.height - calculatedBannerHeight;
+	CGFloat bannerheight = (delta < 0 ? _bannerSize.height :  _bannerSize.height + delta * -1 );
 
 	// window position before slide in animation
-	presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width - bannerTrailingMargin,
+	presentationBeginRect = NSMakeRect(NSMaxX(mainScreenFrame) - _bannerSize.width - bannerTrailingMargin,
 	                                   NSMaxY(mainScreenFrame) - bannerheight - bannerTopMargin,
-	                                   bannerSize.width,
+	                                   _bannerSize.width,
 	                                   bannerheight);
 
 	// window position after slide in animation
-	presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width - bannerTrailingMargin,
+	presentationRect = NSMakeRect(NSMaxX(mainScreenFrame) - _bannerSize.width - bannerTrailingMargin,
 	                              NSMaxY(mainScreenFrame) - statusBarThickness - bannerheight - bannerTopMargin,
-	                              bannerSize.width,
+	                              _bannerSize.width,
 	                              bannerheight);
 
 	// window position after slide out animation
-	presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - bannerSize.width,
+	presentationEndRect = NSMakeRect(NSMaxX(mainScreenFrame) - _bannerSize.width,
 	                                 NSMaxY(mainScreenFrame) - statusBarThickness - bannerheight - bannerTopMargin,
-	                                 bannerSize.width,
+	                                 _bannerSize.width,
 	                                 bannerheight);
 }
 
@@ -342,17 +348,21 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 - (void)configureNotificationBannerConstraints {
 	NSView *contentView = [[self window] contentView];
 
-	NSDictionary *defaultViews = @{ @"bannerImage":     self.bannerImageView,
-                                    @"title":           self.title,
-                                    @"subtitle":        self.subtitle,
-                                    @"informativeText": self.informativeText };
+	NSDictionary *defaultViews = @{
+        @"bannerImage":     self.bannerImageView,
+        @"title":           self.title,
+        @"subtitle":        self.subtitle,
+        @"informativeText": self.informativeText
+    };
 
-	NSDictionary *defaultMetrics = @{ @"padding":         @(bannerContentPadding),
-                                      @"labelPadding":    @(bannerContentLabelPadding),
-                                      @"labelHeight":     @(self.title.intrinsicContentSize.height),
-                                      @"imageWidth":      @(bannerImageSize.width),
-                                      @"imageHeight":     @(bannerImageSize.height) };
-    
+	NSDictionary *defaultMetrics = @{
+        @"padding":         @(bannerContentPadding),
+        @"labelPadding":    @(bannerContentLabelPadding),
+        @"labelHeight":     @(self.title.intrinsicContentSize.height),
+        @"imageWidth":      @(_bannerImageSize.width),
+        @"imageHeight":     @(_bannerImageSize.height)
+    };
+
 	NSMutableDictionary *views = [NSMutableDictionary dictionaryWithDictionary:defaultViews];
 	NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithDictionary:defaultMetrics];
 
@@ -362,25 +372,21 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 		[views setValue:self.otherButton forKey:@"otherButton"];
 		[metrics setValue:@(_calculatedButtonWidth) forKey:@"buttonWidth"];
 
-		_labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding + _calculatedButtonWidth + bannerContentPadding);
+		_labelWidth = _bannerSize.width - (bannerContentPadding + _bannerImageSize.width + bannerContentPadding + bannerContentPadding + _calculatedButtonWidth + bannerContentPadding);
 	}
 
 	else {
-		_labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding);
+		_labelWidth = _bannerSize.width - (bannerContentPadding + _bannerImageSize.width + bannerContentPadding + bannerContentPadding);
     }
     [metrics setValue:@(_labelWidth) forKey:@"labelWidth"];
-    
-    // Calculate the new label height
-    float newHeight = [self.informativeText intrinsicContentSize].height * (ceilf([self.informativeText intrinsicContentSize].width / _labelWidth));
-    
-    if ([self.informativeText.cell usesSingleLineMode] == NO) {
-        NSSize frameSize;
-        frameSize.width = _labelWidth;
-        frameSize.height = newHeight;
-        [self.informativeText setFrameSize:frameSize];
-        [metrics setValue:@(newHeight) forKey:@"informativeTextHeight"];
-        bannerSize.height = bannerSize.height + (newHeight - [self.informativeText intrinsicContentSize].height);
+
+    float newHeight = [self.title intrinsicContentSize].height;
+    if (![self.informativeText.cell usesSingleLineMode]) {
+        newHeight *= (ceilf([self.informativeText intrinsicContentSize].width / _labelWidth));
+        [self.informativeText setFrameSize:NSMakeSize(_labelWidth, newHeight)];
+        _bannerSize.height += newHeight;
     }
+    [metrics setValue:@(newHeight) forKey:@"informativeTextHeight"];
 
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[bannerImage(imageHeight)]" options:0 metrics:metrics views:views]];
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=informativeTextHeight)]"
