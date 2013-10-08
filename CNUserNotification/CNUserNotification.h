@@ -35,9 +35,12 @@
 
 
 /// notification names
-extern NSString *CNUserNotificationHasBeenPresentedNotification;
-extern NSString *CNUserNotificationDismissBannerNotification;
-extern NSString *CNUserNotificationActivatedWithTypeNotification;
+extern NSString *const CNUserNotificationHasBeenPresentedNotification;
+extern NSString *const CNUserNotificationDismissBannerNotification;
+extern NSString *const CNUserNotificationActivatedWithTypeNotification;
+extern NSString *const CNUserNotificationDefaultSound;
+
+extern NSString *const NSUserNotificationDefaultSoundName;
 
 
 typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
