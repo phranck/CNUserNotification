@@ -367,20 +367,24 @@ CGFloat CNGetMaxCGFloat(CGFloat left, CGFloat right) {
 
 	else {
 		_labelWidth = bannerSize.width - (bannerContentPadding + bannerImageSize.width + bannerContentPadding + bannerContentPadding);
-	}
-	[metrics setValue:@(_labelWidth) forKey:@"labelWidth"];
-	if ([self.informativeText respondsToSelector:@selector(setPreferredMaxLayoutWidth:)]) {
-		[self.informativeText setPreferredMaxLayoutWidth:_labelWidth];
-		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=labelHeight)]"
-		                                                                    options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
-	}
-	else {
-		[metrics setValue:@([self informativeTextHeightForWidth:_labelWidth]) forKey:@"informativeTextHeight"];
-		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(informativeTextHeight)]"
-		                                                                    options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
-	}
+    }
+    [metrics setValue:@(_labelWidth) forKey:@"labelWidth"];
+    
+    // Calculate the new label height
+    float newHeight = [self.informativeText intrinsicContentSize].height * (ceilf([self.informativeText intrinsicContentSize].width / _labelWidth));
+    
+    if ([self.informativeText.cell usesSingleLineMode] == NO) {
+        NSSize frameSize;
+        frameSize.width = _labelWidth;
+        frameSize.height = newHeight;
+        [self.informativeText setFrameSize:frameSize];
+        [metrics setValue:@(newHeight) forKey:@"informativeTextHeight"];
+        bannerSize.height = bannerSize.height + (newHeight - [self.informativeText intrinsicContentSize].height);
+    }
 
 	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[bannerImage(imageHeight)]" options:0 metrics:metrics views:views]];
+	[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[title(labelHeight)]-labelPadding-[subtitle(labelHeight)]-labelPadding-[informativeText(>=informativeTextHeight)]"
+	                                                                    options:NSLayoutFormatAlignAllLeading | NSLayoutFormatAlignAllTrailing metrics:metrics views:views]];
 	if (_userNotification.hasActionButton) {
 		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[otherButton]-padding-[actionButton]" options:0 metrics:metrics views:views]];
 		[contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[bannerImage(imageWidth)]-padding-[title(labelWidth)]-padding-[otherButton(buttonWidth)]-padding-|" options:0 metrics:metrics views:views]];
