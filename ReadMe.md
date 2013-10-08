@@ -1,3 +1,6 @@
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=phranck&url=https://github.com/phranck/CNUserNotification&title=CNUserNotification&tags=github&category=software)
+
+
 ##Overview
 `CNUserNotification` is a kind of proxy to give OS X Lion 10.7 „the same‟ support for user notifications like OS X Mountain Lion 10.8 does. Benefits are also a bit more flexibility since you are able to define a custom banner image or variable dismiss delay times. `CNUserNotification` uses a fake notification center that runs just per application. The class design and all method signatures are similar to their counterparts of `NSUserNotification`.
 
