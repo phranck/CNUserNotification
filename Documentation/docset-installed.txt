@@ -1,0 +1,4 @@
+Documentation set was installed to Xcode!
+
+Path: /Users/phranck/Library/Developer/Shared/Documentation/DocSets/com.cocoanaut.CNUserNotification.docset
+Time: 2013-10-09 01:03:33 +0000

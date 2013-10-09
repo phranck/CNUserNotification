@@ -4,7 +4,6 @@
 		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
 		<title>CNUserNotificationCenterDelegate Protocol Reference</title>
 		<meta id="xcode-display" name="xcode-display" content="render"/>
-		<meta name="viewport" content="width=550" />
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
 		<meta name="generator" content="appledoc 2.1 (build 858)" />
@@ -128,21 +127,21 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/userNotificationCenter:shouldPresentNotification:">&ndash;&nbsp;userNotificationCenter:shouldPresentNotification:</a></code>
-		
+		<span class="tooltip"><p>Sent to the delegate when the user notification center has decided not to present your notification.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/userNotificationCenter:didActivateNotification:">&ndash;&nbsp;userNotificationCenter:didActivateNotification:</a></code>
-		
+		<span class="tooltip"><p>Sent to the delegate when a user clicks on a user notification presented by the user notification center.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/userNotificationCenter:didDeliverNotification:">&ndash;&nbsp;userNotificationCenter:didDeliverNotification:</a></code>
-		
+		<span class="tooltip"><p>Sent to the delegate when a notification delivery date has arrived.</p></span>
 	</span>
 	
 	
@@ -169,11 +168,30 @@
 	
 	
 	
+	<div class="method-subsection brief-description">
+		<p>Sent to the delegate when a user clicks on a user notification presented by the user notification center.</p>
+	</div>		
+	
     
 
 	<div class="method-subsection method-declaration"><code>- (void)userNotificationCenter:(CNUserNotificationCenter *)<em>center</em> didActivateNotification:(CNUserNotification *)<em>notification</em></code></div>
 
     
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>center</em></dt>
+			<dd><p>The user notification center.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>notification</em></dt>
+			<dd><p>The user notification object.</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -201,11 +219,34 @@
 	
 	
 	
+	<div class="method-subsection brief-description">
+		<p>Sent to the delegate when a notification delivery date has arrived.</p>
+	</div>		
+	
     
 
 	<div class="method-subsection method-declaration"><code>- (void)userNotificationCenter:(CNUserNotificationCenter *)<em>center</em> didDeliverNotification:(CNUserNotification *)<em>notification</em></code></div>
 
     
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>center</em></dt>
+			<dd><p>The user notification center.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>notification</em></dt>
+			<dd><p>The user notification object.</p>
+
+<p>This method is always called, regardless of your application state and even if you deliver the user notification yourself using deliverNotification:.</p>
+
+<p>This delegate method is invoked before the <a href="#//api/name/userNotificationCenter:shouldPresentNotification:">userNotificationCenter:shouldPresentNotification:</a> delegate method.</p></dd>
+		</dl>
+		
+	</div>
 	
 	
 	
@@ -233,13 +274,37 @@
 	
 	
 	
+	<div class="method-subsection brief-description">
+		<p>Sent to the delegate when the user notification center has decided not to present your notification.</p>
+	</div>		
+	
     
 
 	<div class="method-subsection method-declaration"><code>- (BOOL)userNotificationCenter:(CNUserNotificationCenter *)<em>center</em> shouldPresentNotification:(CNUserNotification *)<em>notification</em></code></div>
 
     
 	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>center</em></dt>
+			<dd><p>The user notification center.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>notification</em></dt>
+			<dd><p>The user notification object.</p></dd>
+		</dl>
+		
+	</div>
 	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>YES if the user notification should be displayed regardless; NO otherwise.</p>
+	</div>
 	
 	
 	
@@ -272,7 +337,7 @@
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-05-26)</span><br />
+						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-10-09)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
 						
