@@ -42,6 +42,11 @@ The only thing you have to do is to replace the prefix `NS` by `CN`. It's not re
 ##Requirements
 `CNUserNotification` was written using ARC and runs on 10.7 and above. It requires the QuartzCore Framework.
 
+##Restrictions
+At the moment `CNUserNotificationFeature` will not compile on 10.7 (with Xcode 4.6.x), because of there are [some weird bugs](http://cl.ly/image/3Z1f3H3b033c). If you have any recommendations how to fix this, feel free to contribute!
+
+But you can compile it on 10.8 and execute on 10.7.
+
 
 ##Contribution
 The code is provided as-is, and it is far off being complete or free of bugs. If you like this component feel free to support it. Make changes related to your needs, extend it or just use it in your own project. Feedbacks are very welcome. Just contact me at [opensource@cocoanaut.com](mailto:opensource@cocoanaut.com?Subject=[CNUserNotification] Your component on Github), send me a ping on **Twitter** [@TheCocoaNaut](http://twitter.com/TheCocoaNaut) or **App.net** [@phranck](https://alpha.app.net/phranck). 
