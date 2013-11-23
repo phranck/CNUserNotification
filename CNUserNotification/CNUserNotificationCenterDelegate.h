@@ -15,10 +15,11 @@
 
 /**
  Sent to the delegate when the user notification center has decided not to present your notification.
- 
- @param     center          The user notification center.
- @param     notification    The user notification object.
- @return    YES if the user notification should be displayed regardless; NO otherwise.
+
+ @param center       The user notification center.
+ @param notification The user notification object.
+
+ @return notification should be displayed regardless; NO otherwise.
  */
 - (BOOL)userNotificationCenter:(CNUserNotificationCenter *)center shouldPresentNotification:(CNUserNotification *)notification;
 

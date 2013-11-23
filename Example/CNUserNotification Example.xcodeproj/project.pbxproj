@@ -274,7 +274,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "cd ../\n`which appledoc` .\nDEPLOY=\"./bin/deployDoc.sh\"\nif [ -f \"${DEPLOY}\" ]; then\n${DEPLOY}\nfi\nexit 0";
+			shellScript = "cd ../CNUserNotification/\n/usr/bin/appledoc .\ncd ../\nDEPLOY=\"./bin/deployDoc.sh\"\nif [ -f \"${DEPLOY}\" ]; then\n${DEPLOY}\nfi\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 

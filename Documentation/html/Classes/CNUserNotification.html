@@ -6,7 +6,7 @@
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
-		<meta name="generator" content="appledoc 2.1 (build 858)" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
 	</head>
 	<body>
 		<header id="top_header">
@@ -25,8 +25,6 @@
 				<li id="jumpto_button" role="navigation">
 					<select id="jumpTo">
 	<option value="top">Jump To&#133;</option>
-	
-	<option value="overview">Overview</option>
 	
 	
 	
@@ -77,8 +75,6 @@
 		<nav id="tocContainer" class="isShowingTOC">
 			<ul id="toc" role="tree">
 				
-<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
-
 
 
 
@@ -168,16 +164,8 @@
 </tr>
 						</tbody></table></div>
 					
-					
-					
-					
-					<div class="section section-overview">
-						<a title="Overview" name="overview"></a>
-						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>notification names</p>
-					</div>
-					
-					
+                    
+                    
 					
 					
 					
@@ -193,21 +181,18 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/title">&nbsp;&nbsp;title</a></code>
-		<span class="tooltip"><p>Specifies the title of the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/subtitle">&nbsp;&nbsp;subtitle</a></code>
-		<span class="tooltip"><p>Specifies the sub<a href="#//api/name/title">title</a> of the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/informativeText">&nbsp;&nbsp;informativeText</a></code>
-		<span class="tooltip"><p>The body text of the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -222,21 +207,18 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/hasActionButton">&nbsp;&nbsp;hasActionButton</a></code>
-		<span class="tooltip"><p>Specifies whether the notification displays an action button.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/actionButtonTitle">&nbsp;&nbsp;actionButtonTitle</a></code>
-		<span class="tooltip"><p>Specifies the <a href="#//api/name/title">title</a> of the action button displayed in the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/otherButtonTitle">&nbsp;&nbsp;otherButtonTitle</a></code>
-		<span class="tooltip"><p>Specifies a custom <a href="#//api/name/title">title</a> for the close button in an alert-style notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -251,7 +233,6 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/soundName">&nbsp;&nbsp;soundName</a></code>
-		<span class="tooltip"><p>Specifies the name of the sound to play when the notification is delivered.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -266,7 +247,6 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/activationType">&nbsp;&nbsp;activationType</a></code>
-		<span class="tooltip"><p>Specifies what caused a user notification to occur. (read-only)</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -281,7 +261,6 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/userInfo">&nbsp;&nbsp;userInfo</a></code>
-		<span class="tooltip"><p>Application-specific user info that can be attached to the notification.</p></span>
 	</span>
 	<span class="task-item-suffix">property</span>
 	
@@ -296,14 +275,12 @@
 							<li>
 	<span class="tooltip">
 		<code><a href="#//api/name/feature">&ndash;&nbsp;feature</a></code>
-		<span class="tooltip"><p>Returns the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p></span>
 	</span>
 	
 	
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/setFeature:">&ndash;&nbsp;setFeature:</a></code>
-		<span class="tooltip"><p>Sets the <a href="../Classes/CNUserNotificationFeature.html">CNUserNotificationFeature</a> extension object.</p></span>
 	</span>
 	
 	
@@ -399,14 +376,7 @@ display and the property will be modified to reflect the truncation.</p>
 		<h4 class="method-subtitle">Discussion</h4>
 		<p>This property specifies why the user notification was sent to to the <a href="../Protocols/CNUserNotificationCenterDelegate.html">CNUserNotificationCenterDelegate</a> method
 <code>userNotificationCenter:didActivateNotification:</code>.
-The supported values are described in <code>CNUserNotificationActivationType</code>.</p>
-
-<pre><code>typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
-    CNUserNotificationActivationTypeNone = 0,
-    CNUserNotificationActivationTypeContentsClicked,
-    CNUserNotificationActivationTypeActionButtonClicked
-} NS_ENUM_AVAILABLE (10_7, NA);
-</code></pre>
+The supported values are described in <a href="../Constants/CNUserNotificationActivationType.html"><code>CNUserNotificationActivationType</code></a>.</p>
 	</div>
 	
 	
@@ -862,6 +832,8 @@ display and the property will be modified to reflect the truncation.</p>
 					</div>
 					
 					
+                    
+                    
 				</div>
 				<div class="main-navigation navigation-bottom">
 					<ul>
@@ -872,9 +844,9 @@ display and the property will be modified to reflect the truncation.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-10-09)</span><br />
+						<p><span class="copyright">&copy; 2013 cocoa:naut. All rights reserved. (Last updated: 2013-11-23)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 858)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						
 					</div>
 				</div>

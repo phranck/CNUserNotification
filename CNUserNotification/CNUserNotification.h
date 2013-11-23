@@ -43,11 +43,23 @@ extern NSString *const CNUserNotificationDefaultSound;
 extern NSString *const NSUserNotificationDefaultSoundName;
 
 
+/**
+ These attributes describes the way a notification was activated.
+ */
 typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
+/**
+ No notification was activated. This is the default value.
+ */
     CNUserNotificationActivationTypeNone = 0,
+/**
+ The user has clicked the notification banner itself.
+ */
     CNUserNotificationActivationTypeContentsClicked,
+/**
+ The user has clicked the action button of a notification.
+ */
     CNUserNotificationActivationTypeActionButtonClicked
-} NS_ENUM_AVAILABLE (10_7, NA);
+};
 
 
 NS_CLASS_AVAILABLE(10_7, NA)
@@ -170,13 +182,6 @@ NS_CLASS_AVAILABLE(10_7, NA)
  This property specifies why the user notification was sent to to the CNUserNotificationCenterDelegate method 
  `userNotificationCenter:didActivateNotification:`.
  The supported values are described in `CNUserNotificationActivationType`.
- 
-    typedef NS_ENUM (NSInteger, CNUserNotificationActivationType) {
-        CNUserNotificationActivationTypeNone = 0,
-        CNUserNotificationActivationTypeContentsClicked,
-        CNUserNotificationActivationTypeActionButtonClicked
-    } NS_ENUM_AVAILABLE (10_7, NA);
-
  */
 @property (readonly) CNUserNotificationActivationType activationType;
 
@@ -211,6 +216,7 @@ NS_CLASS_AVAILABLE(10_7, NA)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSUserNotification+CNUserNotificationAdditions
+
 @interface NSUserNotification (CNUserNotificationAdditions)
 - (CNUserNotificationFeature *)feature;
 - (void)setFeature:(CNUserNotificationFeature *)theFeature;
