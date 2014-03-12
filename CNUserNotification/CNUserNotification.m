@@ -56,9 +56,9 @@ NSString *const CNUserNotificationHasBeenPresentedNotification = @"CNUserNotific
 			_CNUserNotificationInstance = self;
 			_feature = [CNUserNotificationFeature new];
 
-			_title = nil;
-			_subtitle = nil;
-			_informativeText = nil;
+			_title = @"";
+			_subtitle = @"";
+			_informativeText = @"";
 			_hasActionButton = NO;
 			_actionButtonTitle = nil;
 			_otherButtonTitle = nil;
