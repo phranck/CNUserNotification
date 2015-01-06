@@ -6,20 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		FDB29B591804DE55004D53D8 /* Documentation */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = FDB29B5C1804DE55004D53D8 /* Build configuration list for PBXAggregateTarget "Documentation" */;
-			buildPhases = (
-				FDB29B5D1804DE92004D53D8 /* Generate Appledoc */,
-			);
-			dependencies = (
-			);
-			name = Documentation;
-			productName = Documentation;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		FD410C361746BDA7009C2424 /* CNUserNotification Example.iconset in Resources */ = {isa = PBXBuildFile; fileRef = FD410C351746BDA7009C2424 /* CNUserNotification Example.iconset */; };
 		FDC13CC917483595001E4BE1 /* banner-image-1.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC13CC717483595001E4BE1 /* banner-image-1.png */; };
@@ -223,7 +209,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = CN;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "cocoa:naut";
 			};
 			buildConfigurationList = FDC3FFBF17467F4000DEA770 /* Build configuration list for PBXProject "CNUserNotification Example" */;
@@ -239,7 +225,6 @@
 			projectRoot = "";
 			targets = (
 				FDC3FFC317467F4000DEA770 /* CNUserNotification Example */,
-				FDB29B591804DE55004D53D8 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -260,23 +245,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FDB29B5D1804DE92004D53D8 /* Generate Appledoc */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Appledoc";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "cd ../CNUserNotification/\n/usr/bin/appledoc .\ncd ../\nDEPLOY=\"./bin/deployDoc.sh\"\nif [ -f \"${DEPLOY}\" ]; then\n${DEPLOY}\nfi\nexit 0";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FDC3FFC017467F4000DEA770 /* Sources */ = {
@@ -325,20 +293,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		FDB29B5A1804DE55004D53D8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		FDB29B5B1804DE55004D53D8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		FDC3FFDF17467F4000DEA770 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,7 +353,6 @@
 		FDC3FFE217467F4000DEA770 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CNUserNotification Example/CNUserNotification Example-Prefix.pch";
@@ -413,7 +366,6 @@
 		FDC3FFE317467F4000DEA770 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CNUserNotification Example/CNUserNotification Example-Prefix.pch";
@@ -427,15 +379,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FDB29B5C1804DE55004D53D8 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FDB29B5A1804DE55004D53D8 /* Debug */,
-				FDB29B5B1804DE55004D53D8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		FDC3FFBF17467F4000DEA770 /* Build configuration list for PBXProject "CNUserNotification Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
