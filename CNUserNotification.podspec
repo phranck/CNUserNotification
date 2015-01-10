@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'CNUserNotification'
-  s.version               = '0.1.3'
+  s.version               = '0.1.4'
   s.summary               = 'CNUserNotification gives you „the same‟ support for user notifications on OS X Lion 10.7 like OS X Mountain Lion 10.8 it does.'
   s.homepage              = 'https://github.com/phranck/CNUserNotification'
   s.author                = { 'Frank Gregor' => 'phranck@cocoanaut.com' }
